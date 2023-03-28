@@ -5,8 +5,21 @@ export const timestamp = () => +Date.now()
  * @param publishTime 类时间字符串
  * @returns string
  */
-export const getDateDiff = (publishTime: number): string => {
+export const getDateDiff = (time: string): string => {
   const timeNow = parseInt(`${new Date().getTime() / 1000}`, 10)
+
+  let publishTime: number
+
+  const re = /^[\d]+$/
+  const timestamp = re.test(`${time}`)
+  if (!timestamp) {
+    const tmp = Date.parse(`${time}`)
+    publishTime = tmp / 1000
+  }
+  else {
+    publishTime = Number(time) / (time.length === 13 ? 1000 : 1)
+  }
+
   const date = new Date(publishTime * 1000)
   const Y = date.getFullYear()
   let M: number | string = date.getMonth() + 1
@@ -62,17 +75,37 @@ export const getDateDiff = (publishTime: number): string => {
 
 /**
  * 简单的日期格式化
- * @param utc 时间戳
+ * @param utc 时间戳: 10位时间戳/13位时间戳/任何时间格式
  * @param format 时间格式
  * @param add 需要添加的天数
  * @returns 日期
  */
-export const UTC2Date = (utc: any, format?: string, add?: number): string => {
+export const UTC2Date = (utc?: string, format?: string, add?: number): string => {
   if (!format)
     format = 'y-m-d'
-  if (utc && typeof utc === 'string')
-    utc = utc.replace(/-/g, '/').replace('.000000', '')
-  let newDate = utc ? new Date(utc) : new Date()
+  let newDate
+  const re = /^[\d]+$/
+  if (utc) {
+    try {
+      if (re.test(utc)) {
+        if (utc.length === 10)
+          newDate = new Date(Number(`${utc}000`))
+        else if (utc.length === 16)
+          newDate = new Date(Number(utc))
+      }
+      else {
+        utc = utc.replace(/-/g, '/').replace('.000000', '')
+
+        newDate = new Date(utc)
+      }
+    }
+    catch (error) {
+
+    }
+  }
+  if (!newDate)
+    newDate = new Date()
+
   if (add)
     newDate = new Date(newDate.setDate(newDate.getDate() + add))
   const year: number | string = newDate.getFullYear()
