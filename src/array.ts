@@ -61,7 +61,7 @@ export function partition<T>(array: readonly T[], ...filters: PartitionFilter<T>
 }
 
 /**
- * 唯一数组
+ * 数组里的元素唯一化
  *
  * @category Array
  */

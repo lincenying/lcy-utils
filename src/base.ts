@@ -14,7 +14,10 @@ export const getTypeName = (v: any) => {
 
 export const noop = () => {}
 
-// 获取滚动条宽度
+/**
+ * 获取滚动条宽度
+ * @returns scrollWidth
+ */
 export const getScrollWidth = (): number => {
   // creates a DOM element
   const testDiv = document.createElement('div')
@@ -40,6 +43,14 @@ export const getScrollWidth = (): number => {
   return width
 }
 
+/**
+ * 将css插入head中
+ * @param newStyle
+ * @example
+ * ```
+ * addNewStyle(`html { color: red; }`)
+ * ```
+ */
 export const addNewStyle = (newStyle: string): void => {
   let styleElement = <HTMLStyleElement>document.getElementById('styles_js')
 

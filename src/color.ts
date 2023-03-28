@@ -6,6 +6,16 @@ interface hexToRgbaType {
   rgba: string
 }
 
+/**
+ * 将16进制颜色转成Rgba颜色
+ * @param hex
+ * @param opacity
+ * @returns rgba
+ * @example
+ * ```
+ * hexToRgba('#ffffff', 0.5)
+ * ```
+ */
 export const hexToRgba = (hex: string, opacity = 1): hexToRgbaType => {
   const red = parseInt(`0x${hex.slice(1, 3)}`, 16)
   const green = parseInt(`0x${hex.slice(3, 5)}`, 16)
@@ -20,6 +30,15 @@ export const hexToRgba = (hex: string, opacity = 1): hexToRgbaType => {
   }
 }
 
+/**
+ * 将 rgb 颜色转成 16 进制颜色
+ * @param color
+ * @returns hex
+ * @example
+ * ```
+ * RGB2Hex('rgb(0, 0, 0)')
+ * ```
+ */
 export const RGB2Hex = (color: string): string => {
   const rgb = color.split(',')
   const r = parseInt(rgb[0].split('(')[1], 10)
@@ -30,6 +49,15 @@ export const RGB2Hex = (color: string): string => {
   return hex
 }
 
+/**
+ * 批量将16进制颜色转成Rgba颜色
+ * @param arr 16进制颜色数组
+ * @returns Rgba颜色数组
+ * @example
+ * ```
+ * batchHexToRgba(['#ffffff'])
+ * ```
+ */
 export const batchHexToRgba = (arr: any[]) => {
   if (!arr)
     return []

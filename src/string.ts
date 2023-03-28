@@ -89,7 +89,14 @@ export const transformStr = (str: string): string => {
   return strArr.join('')
 }
 
-// 计算字符串长度, 汉字算2
+/**
+ * 计算字符串长度, 汉字算2
+ * @category string
+ * @example
+ * ```
+ * strLen('hello') => 5
+ * ```
+ */
 export const strLen = (str: string): number => {
   let len = 0
   for (let i = 0; i < str.length; i++) {

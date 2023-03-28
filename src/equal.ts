@@ -1,5 +1,11 @@
 import { getTypeName } from './base'
 
+/**
+ * 深度对比两个值
+ * @param value1
+ * @param value2
+ * @returns true | false
+ */
 export function isDeepEqual(value1: any, value2: any): boolean {
   const type1 = getTypeName(value1)
   const type2 = getTypeName(value2)
