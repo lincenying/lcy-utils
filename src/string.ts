@@ -109,3 +109,17 @@ export const Random = (lower: number, upper: number): number => {
   upper = +upper || 0
   return Math.random() * (upper - lower) + lower
 }
+
+// 在固定位置添加字符串
+export const addStr = (str: string, num: number): string => {
+  const arr = str ? str.split('') : [] // 要先判断字符串是否有字符 然后将它分割成数组
+  let newStr = ''
+  arr.forEach((item: string, index: number) => {
+    newStr += item
+    if ((index + 1) % num === 0 && index !== arr.length - 1) {
+      // 6可以更改，最后一位不加
+      newStr += '\n' // 加上插入的字符
+    }
+  })
+  return newStr
+}
