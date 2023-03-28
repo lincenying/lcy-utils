@@ -80,12 +80,14 @@ export const getDateDiff = (time: string): string => {
  * @param add 需要添加的天数
  * @returns 日期
  */
-export const UTC2Date = (utc?: string, format?: string, add?: number): string => {
+export const UTC2Date = (utc?: string | number, format?: string, add?: number): string => {
   if (!format)
     format = 'y-m-d'
   let newDate
   const re = /^[\d]+$/
   if (utc) {
+    if (typeof utc === 'number')
+      utc = `${utc}`
     try {
       if (re.test(utc)) {
         if (utc.length === 10)
@@ -95,7 +97,6 @@ export const UTC2Date = (utc?: string, format?: string, add?: number): string =>
       }
       else {
         utc = utc.replace(/-/g, '/').replace('.000000', '')
-
         newDate = new Date(utc)
       }
     }
