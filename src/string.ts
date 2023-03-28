@@ -81,6 +81,15 @@ export function capitalize(str: string): string {
 
 // 将字符串中的横线模式替换成驼峰模式
 // a-bc-df => aBcDf
+/**
+ * 将字符串中的横线模式替换成驼峰模式
+ * @param str string
+ * @returns string
+ * @example
+ * ```
+ * transformStr('a-bc-df') // aBcDf
+ * ```
+ */
 export const transformStr = (str: string): string => {
   const strArr = str.split('-')
   for (let i = 1; i < strArr.length; i++)
@@ -94,7 +103,7 @@ export const transformStr = (str: string): string => {
  * @category string
  * @example
  * ```
- * strLen('hello') => 5
+ * strLen('hello') // 5
  * ```
  */
 export const strLen = (str: string): number => {
@@ -110,23 +119,36 @@ export const strLen = (str: string): number => {
   return len
 }
 
-// 返回一个lower - upper之间的随机数
+/**
+ * 返回一个lower - upper之间的随机数
+ * @param lower 最小值
+ * @param upper 最大值
+ * @returns number
+ */
 export const Random = (lower: number, upper: number): number => {
   lower = +lower || 0
   upper = +upper || 0
   return Math.random() * (upper - lower) + lower
 }
 
-// 在固定位置添加字符串
-export const addStr = (str: string, num: number): string => {
+/**
+ * 在固定位置添加字符串
+ * @param str 需要处理的字符串
+ * @param num 每num个字符
+ * @param add 需要添加的字符
+ * @returns string
+ * @example
+ * ```
+ * addStr('121432432432432', 3, '|') // '121|432|432|432|432'
+ * ```
+ */
+export const addStr = (str: string, num: number, add = '\n'): string => {
   const arr = str ? str.split('') : [] // 要先判断字符串是否有字符 然后将它分割成数组
   let newStr = ''
   arr.forEach((item: string, index: number) => {
     newStr += item
-    if ((index + 1) % num === 0 && index !== arr.length - 1) {
-      // 6可以更改，最后一位不加
-      newStr += '\n' // 加上插入的字符
-    }
+    if ((index + 1) % num === 0 && index !== arr.length - 1)
+      newStr += add
   })
   return newStr
 }

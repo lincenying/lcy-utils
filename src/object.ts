@@ -68,7 +68,7 @@ export function objectEntries<T extends object>(obj: T) {
 }
 
 /**
- * Deep merge :P
+ * 对象深度合并 :P
  *
  * @category Object
  */
@@ -107,9 +107,13 @@ function isMergableObject(item: any): item is Object {
 }
 
 /**
- * Create a new subset object by giving keys
+ * 通过给键名创建一个新的子集对象
  *
  * @category Object
+ * @example
+ * ```
+ * objectPick({ a:1, b:2, c:3, d:4 }, ['a', 'b']) // {a: 1, b: 2}
+ * ```
  */
 export function objectPick<O extends object, T extends keyof O>(obj: O, keys: T[], omitUndefined = false) {
   return keys.reduce((n, k) => {
@@ -122,9 +126,13 @@ export function objectPick<O extends object, T extends keyof O>(obj: O, keys: T[
 }
 
 /**
- * Clear undefined fields from an object. It mutates the object
+ * 清除对象中未定义的字段。 会改变原对象
  *
  * @category Object
+ * @example
+ * ```
+ * clearUndefined({ a: undefined, b:2, c:3, d:4 }) // {b: 2, c: 3, d: 4}
+ * ```
  */
 export function clearUndefined<T extends object>(obj: T): T {
   // @ts-expect-error

@@ -61,7 +61,7 @@ export function partition<T>(array: readonly T[], ...filters: PartitionFilter<T>
 }
 
 /**
- * 数组里的元素唯一化
+ * 去除数组里的重复数据
  *
  * @category Array
  */
@@ -84,7 +84,7 @@ export function uniqueBy<T>(array: readonly T[], equalFn: (a: any, b: any) => bo
 }
 
 /**
- * 获取最后一项
+ * 获取数组最后一项
  *
  * @category Array
  */
@@ -95,7 +95,7 @@ export function last<T>(array: readonly T[]): T | undefined {
 }
 
 /**
- * 从数组中移除一个项
+ * 从数组中移除一项
  *
  * @category Array
  */
@@ -111,7 +111,7 @@ export function remove<T>(array: T[], value: T) {
 }
 
 /**
- * 获取数组的第n项。反向为负
+ * 获取数组的第n项。负数为反向
  *
  * @category Array
  */
@@ -190,7 +190,7 @@ export function sample<T>(arr: T[], quantity: number) {
 }
 
 /**
- * 打乱一个数组。 这个函数改变数组。
+ * 打乱一个数组。 这个函数改变原数组。
  *
  * @category Array
  */
@@ -202,18 +202,19 @@ export function shuffle<T>(array: T[]): T[] {
   return array
 }
 
-// 数组转对象
-/*
-[{name: "AAA", value: 1}, {name: "BBB", value: 2}, {name: "CCC", value: 3}, {name: "DDD", value: 4}]
-==>
-{
-    1:"AAA",
-    2:"BBB",
-    3:"CCC",
-    4:"DDD"
-}
-*/
-export const arrayToObject = (arr: [], key = 'value', val = 'name') => {
+/**
+ * 数组转对象
+ * @param arr 数组
+ * @param key
+ * @param val
+ * @returns object
+ * @example
+ * ```
+ * arrayToObject([{name: "AAA", value: 1}, {name: "BBB", value: 2}], 'name', 'value')
+ * // { 1:"AAA", 2:"BBB", 3:"CCC", 4:"DDD" }
+ * ```
+ */
+export const arrayToObject = (arr: any[], key = 'value', val = 'name') => {
   const obj: Record<string, string | number> = {}
   arr.forEach((item) => {
     obj[item[key]] = item[val]

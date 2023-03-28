@@ -1,5 +1,10 @@
 export const timestamp = () => +Date.now()
 
+/**
+ * 某时间和当前时间的间隔
+ * @param publishTime 类时间字符串
+ * @returns string
+ */
 export const getDateDiff = (publishTime: number): string => {
   const timeNow = parseInt(`${new Date().getTime() / 1000}`, 10)
   const date = new Date(publishTime * 1000)
@@ -55,7 +60,13 @@ export const getDateDiff = (publishTime: number): string => {
   return ''
 }
 
-// 日期格式化
+/**
+ * 简单的日期格式化
+ * @param utc 时间戳
+ * @param format 时间格式
+ * @param add 需要添加的天数
+ * @returns 日期
+ */
 export const UTC2Date = (utc: any, format?: string, add?: number): string => {
   if (!format)
     format = 'y-m-d'

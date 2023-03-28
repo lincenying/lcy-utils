@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { flattenArrayable, partition, range, toArray } from './array'
+import { arrayToObject, flattenArrayable, partition, range, toArray } from './array'
 
 describe('toArray', () => {
   it.each([
@@ -71,4 +71,8 @@ it('partition', () => {
       i => i,
     ),
   ).toHaveLength(6)
+})
+
+it('arrayToObject', () => {
+  expect(arrayToObject([{ name: 'AAA', value: 1 }, { name: 'BBB', value: 2 }], 'value', 'name')).toEqual({ 1: 'AAA', 2: 'BBB' })
 })
