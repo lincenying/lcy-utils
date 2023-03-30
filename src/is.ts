@@ -17,6 +17,11 @@ export const isWindow = (val: any): boolean => typeof window !== 'undefined' && 
 // @ts-ignore
 export const isBrowser = typeof window !== 'undefined'
 
+/**
+ * 检测是否为空, 空对象/空数组/空字符串 均为真
+ * @param payload
+ * @returns true | false
+ */
 const _isEmpty = (payload: any) => {
   if (isObject(payload) && Object.keys(payload).length === 0)
     return true
@@ -27,10 +32,20 @@ const _isEmpty = (payload: any) => {
   return false
 }
 
+/**
+ * 检测是否为空, 非数值型和布尔型 且 是空对象/空数组/空字符串 则为真
+ * @param payload
+ * @returns true | false
+ */
 export const isEmpty = (payload: any): boolean => {
   return !isNumber(payload) && !isBoolean(payload) && _isEmpty(payload)
 }
 
+/**
+ * 检测是否为假, 布尔假 或者 是空对象/空数组/空字符串 则为真
+ * @param payload
+ * @returns true | false
+ */
 export const isFalse = (payload: any): boolean => {
   return !!payload === false || (!isBoolean(payload) && !isNumber(payload) && _isEmpty(payload))
 }
