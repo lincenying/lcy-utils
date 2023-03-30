@@ -1,3 +1,4 @@
+import cloneDeep from 'lodash.clonedeep'
 import { notNullish } from './guards'
 import { isObject } from './is'
 import type { DeepMerge } from './types'
@@ -66,6 +67,11 @@ export function objectKeys<T extends object>(obj: T) {
 export function objectEntries<T extends object>(obj: T) {
   return Object.entries(obj) as Array<[keyof T, T[keyof T]]>
 }
+
+/**
+ * 深度克隆对象
+ */
+export const deepClone = cloneDeep
 
 /**
  * 对象深度合并 :P
