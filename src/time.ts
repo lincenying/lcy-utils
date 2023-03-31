@@ -76,13 +76,13 @@ export const getDateDiff = (time: string): string => {
 /**
  * 简单的日期格式化
  * @param utc 时间戳: 10位时间戳/13位时间戳/任何时间格式
- * @param format 时间格式
+ * @param format 时间格式 yyyy-mm-dd hh-ii-ss.SSS | yyyy-m-d h-i-s.S
  * @param add 需要添加的天数
  * @returns 日期
  */
 export const UTC2Date = (utc?: string | number, format?: string, add?: number): string => {
   if (!format)
-    format = 'y-m-d'
+    format = 'yyyy-mm-dd'
   let newDate
   const re = /^[\d]+$/
   if (utc) {
@@ -92,7 +92,7 @@ export const UTC2Date = (utc?: string | number, format?: string, add?: number): 
       if (re.test(utc)) {
         if (utc.length === 10)
           newDate = new Date(Number(`${utc}000`))
-        else if (utc.length === 16)
+        else if (utc.length === 13)
           newDate = new Date(Number(utc))
       }
       else {
@@ -109,30 +109,29 @@ export const UTC2Date = (utc?: string | number, format?: string, add?: number): 
 
   if (add)
     newDate = new Date(newDate.setDate(newDate.getDate() + add))
-  const year: number | string = newDate.getFullYear()
-  let month: number | string = newDate.getMonth() + 1
-  let date: number | string = newDate.getDate()
-  let hours: number | string = newDate.getHours()
-  let minutes: number | string = newDate.getMinutes()
-  let seconds: number | string = newDate.getSeconds()
-  let secondes: number | string = newDate.getMilliseconds()
-  month = month < 10 ? `0${month}` : month
-  date = date < 10 ? `0${date}` : date
-  hours = hours < 10 ? `0${hours}` : hours
-  minutes = minutes < 10 ? `0${minutes}` : minutes
-  seconds = seconds < 10 ? `0${seconds}` : seconds
-  if (secondes < 100 && secondes > 9)
-    secondes = `0${secondes}`
 
-  else if (secondes < 10)
-    secondes = `00${secondes}`
+  const year = newDate.getFullYear()
+  const month = newDate.getMonth() + 1
+  const day = newDate.getDate()
+  const hour = newDate.getHours()
+  const minute = newDate.getMinutes()
+  const second = newDate.getSeconds()
+  const millisecond = newDate.getMilliseconds()
+
+  const monthString = month < 10 ? `0${month}` : `${month}`
 
   return format
-    .replace(/y/gi, `${year}`)
-    .replace(/m/gi, `${month}`)
-    .replace(/d/gi, `${date}`)
-    .replace(/h/gi, `${hours}`)
-    .replace(/i/gi, `${minutes}`)
-    .replace(/s/gi, `${seconds}`)
-    .replace(/v/gi, `${secondes}`)
+    .replace('yyyy', year.toString())
+    .replace('mm', monthString)
+    .replace('m', month.toString())
+    .replace('dd', (day < 10 ? '0' : '') + day.toString())
+    .replace('d', day.toString())
+    .replace('hh', (hour < 10 ? '0' : '') + hour.toString())
+    .replace('h', hour.toString())
+    .replace('ii', (minute < 10 ? '0' : '') + minute.toString())
+    .replace('i', minute.toString())
+    .replace('ss', (second < 10 ? '0' : '') + second.toString())
+    .replace('s', second.toString())
+    .replace('SSS', (millisecond < 100 ? '0' : '') + (millisecond < 10 ? '0' : '') + millisecond.toString())
+    .replace('S', millisecond.toString())
 }
