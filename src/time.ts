@@ -1,53 +1,57 @@
 export const timestamp = () => +Date.now()
 
+export const getDate = (str?: string | number): Date => {
+  let newDate
+  const re = /^[\d]+$/
+  if (str) {
+    if (typeof str === 'number')
+      str = `${str}`
+    try {
+      if (re.test(str)) {
+        if (str.length === 10)
+          newDate = new Date(Number(`${str}000`))
+        else if (str.length === 13)
+          newDate = new Date(Number(str))
+      }
+      else {
+        str = str.replace(/-/g, '/').replace('.000000', '')
+        newDate = new Date(str)
+      }
+    }
+    catch (error) {
+
+    }
+  }
+  if (!newDate)
+    newDate = new Date()
+
+  return newDate
+}
+
 /**
  * 某时间和当前时间的间隔
- * @param publishTime 类时间字符串
+ * @param publishTime 时间戳: 10位时间戳/13位时间戳/任何时间格式
  * @returns string
  */
 export const getDateDiff = (time: string): string => {
-  const timeNow = parseInt(`${new Date().getTime() / 1000}`, 10)
+  const timeNow = Math.floor(new Date().getTime() / 1000)
+  const timeNowYear = new Date().getFullYear()
 
-  let publishTime: number
+  const date = getDate(time)
+  const publishTime = date.getTime() / 1000
 
-  const re = /^[\d]+$/
-  const timestamp = re.test(`${time}`)
-  if (!timestamp) {
-    const tmp = Date.parse(`${time}`)
-    publishTime = tmp / 1000
-  }
-  else {
-    publishTime = Number(time) / (time.length === 13 ? 1000 : 1)
-  }
-
-  const date = new Date(publishTime * 1000)
   const Y = date.getFullYear()
-  let M: number | string = date.getMonth() + 1
-  let D: number | string = date.getDate()
-  let H: number | string = date.getHours()
-  let m: number | string = date.getMinutes()
-  let s: number | string = date.getSeconds()
-  // 小于10的在前面补0
-  if (M < 10)
-    M = `0${M}`
-
-  if (D < 10)
-    D = `0${D}`
-
-  if (H < 10)
-    H = `0${H}`
-
-  if (m < 10)
-    m = `0${m}`
-
-  if (s < 10)
-    s = `0${s}`
+  const M = date.getMonth() + 1
+  const D = date.getDate()
+  const H = date.getHours()
+  const m = date.getMinutes()
+  // const s = date.getSeconds()
 
   const d = timeNow - publishTime
-  const d_days = parseInt(`${d / 86400}`, 10)
-  const d_hours = parseInt(`${d / 3600}`, 10)
-  const d_minutes = parseInt(`${d / 60}`, 10)
-  const d_seconds = parseInt(`${d}`, 10)
+  const d_days = Math.floor(d / 86400)
+  const d_hours = Math.floor(d / 3600)
+  const d_minutes = Math.floor(d / 60)
+  const d_seconds = d
 
   if (d_days > 0 && d_days < 3) {
     return `${d_days}天前`
@@ -64,11 +68,11 @@ export const getDateDiff = (time: string): string => {
 
     return `${d_seconds}秒前`
   }
-  else if (d_days >= 3 && d_days < 30) {
-    return `${M}-${D} ${H}:${m}`
+  else if (d_days >= 3 && timeNowYear === Y) {
+    return `${M < 10 ? '0' : ''}${M}-${D < 10 ? '0' : ''}${D} ${H < 10 ? '0' : ''}${H}:${m < 10 ? '0' : ''}${m}`
   }
-  else if (d_days >= 30) {
-    return `${Y}-${M}-${D} ${H}:${m}`
+  else if (timeNowYear !== Y) {
+    return `${Y}-${M < 10 ? '0' : ''}${M}-${D < 10 ? '0' : ''}${D} ${H < 10 ? '0' : ''}${H}:${m < 10 ? '0' : ''}${m}`
   }
   return ''
 }
@@ -83,29 +87,8 @@ export const getDateDiff = (time: string): string => {
 export const UTC2Date = (utc?: string | number, format?: string, add?: number): string => {
   if (!format)
     format = 'yyyy-mm-dd'
-  let newDate
-  const re = /^[\d]+$/
-  if (utc) {
-    if (typeof utc === 'number')
-      utc = `${utc}`
-    try {
-      if (re.test(utc)) {
-        if (utc.length === 10)
-          newDate = new Date(Number(`${utc}000`))
-        else if (utc.length === 13)
-          newDate = new Date(Number(utc))
-      }
-      else {
-        utc = utc.replace(/-/g, '/').replace('.000000', '')
-        newDate = new Date(utc)
-      }
-    }
-    catch (error) {
 
-    }
-  }
-  if (!newDate)
-    newDate = new Date()
+  let newDate = getDate(utc)
 
   if (add)
     newDate = new Date(newDate.setDate(newDate.getDate() + add))

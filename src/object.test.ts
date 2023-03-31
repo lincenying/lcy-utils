@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { deepMerge, objectMap } from './object'
+import { deepClone, deepMerge, objectMap } from './object'
 
 it('objectMap', () => {
   expect(objectMap({}, (...args) => args)).toEqual({})
@@ -50,5 +50,15 @@ describe('deepMerge', () => {
     const obj1 = { a: ['A', 'B'] }
     const obj2 = { a: ['C'], b: ['D'] }
     expect(deepMerge({}, obj1, obj2)).toEqual({ a: ['C'], b: ['D'] })
+  })
+})
+
+describe('deepClone', () => {
+  it('deep clone object', () => {
+    const obj1 = { a: { a1: 'A1' }, c: 'C', d: {} }
+    const obj2 = deepClone(obj1)
+    obj1.c = 'CC'
+    const isEqual = obj1 === obj2
+    expect(isEqual).toEqual(false)
   })
 })
