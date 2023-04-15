@@ -1,24 +1,26 @@
-export const assert = (condition: boolean, message: string): asserts condition => {
+export function assert(condition: boolean, message: string): asserts condition {
   if (!condition)
     throw new Error(message)
 }
 
-export const toString = (v: any) => Object.prototype.toString.call(v)
+export function toString(v: any) {
+  return Object.prototype.toString.call(v)
+}
 
-export const getTypeName = (v: any) => {
+export function getTypeName(v: any) {
   if (v === null)
     return 'null'
   const type = toString(v).slice(8, -1).toLowerCase()
-  return typeof v === 'object' || typeof v === 'function' ? type : typeof v
+  return (typeof v === 'object' || typeof v === 'function') ? type : typeof v
 }
 
-export const noop = () => {}
+export function noop() {}
 
 /**
  * 获取滚动条宽度
  * @returns scrollWidth
  */
-export const getScrollWidth = (): number => {
+export function getScrollWidth(): number {
   // creates a DOM element
   const testDiv = document.createElement('div')
   // stores the CSS attributes
@@ -51,7 +53,7 @@ export const getScrollWidth = (): number => {
  * addNewStyle(`html { color: red; }`)
  * ```
  */
-export const addNewStyle = (newStyle: string): void => {
+export function addNewStyle(newStyle: string): void {
   let styleElement = <HTMLStyleElement>document.getElementById('styles_js')
 
   if (!styleElement) {

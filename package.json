@@ -35,7 +35,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "nr build --watch",
-    "lint": "eslint .",
+    "lint": "eslint . --ext .ts",
     "prepublishOnly": "npm run build",
     "release": "bumpp --commit --push --tag && npm publish",
     "start": "esno src/index.ts",

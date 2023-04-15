@@ -8,7 +8,7 @@
  * hexToRgba('#ffffff', 0.5)
  * ```
  */
-export const hexToRgba = (hex: string, opacity = 1): { red: number; green: number; blue: number; rgb: string; rgba: string } => {
+export function hexToRgba(hex: string, opacity = 1): { red: number; green: number; blue: number; rgb: string; rgba: string } {
   const red = parseInt(`0x${hex.slice(1, 3)}`, 16)
   const green = parseInt(`0x${hex.slice(3, 5)}`, 16)
   const blue = parseInt(`0x${hex.slice(5, 7)}`, 16)
@@ -31,7 +31,7 @@ export const hexToRgba = (hex: string, opacity = 1): { red: number; green: numbe
  * RGB2Hex('rgb(0, 0, 0)') // '#000000'
  * ```
  */
-export const RGB2Hex = (color: string): string => {
+export function RGB2Hex(color: string): string {
   const rgb = color.split(',')
   const r = parseInt(rgb[0].split('(')[1], 10)
   const g = parseInt(rgb[1], 10)
@@ -50,22 +50,23 @@ export const RGB2Hex = (color: string): string => {
  * batchHexToRgba(['#ffffff']) // [ '255,255,255' ]
  * ```
  */
-export const batchHexToRgba = (arr: any[]) => {
+export function batchHexToRgba(arr: any[]) {
   if (!arr)
     return []
   arr = arr.map((item) => {
-    if (Array.isArray(item))
+    if (Array.isArray(item)) {
       return batchHexToRgba(item)
-    if (item.indexOf('#') === 0)
+    }
+    else if (item.indexOf('#') === 0) {
       return hexToRgba(item).rgb
-
-    if (item.indexOf('rgba(') === 0) {
+    }
+    else if (item.indexOf('rgba(') === 0) {
       const re = /rgba\(\s*([\d]+)\s*,\s*([\d]+)\s*,\s*([\d]+)\s*,\s*([\d]+)\s*\)/i
       const match = re.exec(item)
       if (match)
         return `${match[1]},${match[2]},${match[3]}`
     }
-    if (item.indexOf('rgb(') === 0) {
+    else if (item.indexOf('rgb(') === 0) {
       const re = /rgb\(\s*([\d]+)\s*,\s*([\d]+)\s*,\s*([\d]+)\s*\)/i
       const match = re.exec(item)
       if (match)

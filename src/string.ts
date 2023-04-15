@@ -90,7 +90,7 @@ export function capitalize(str: string): string {
  * transformStr('a-bc-df') // aBcDf
  * ```
  */
-export const transformStr = (str: string): string => {
+export function transformStr(str: string): string {
   const strArr = str.split('-')
   for (let i = 1; i < strArr.length; i++)
     strArr[i] = strArr[i].charAt(0).toUpperCase() + strArr[i].substring(1)
@@ -106,7 +106,7 @@ export const transformStr = (str: string): string => {
  * strLen('hello') // 5
  * ```
  */
-export const strLen = (str: string): number => {
+export function strLen(str: string): number {
   let len = 0
   for (let i = 0; i < str.length; i++) {
     const c = str.charCodeAt(i)
@@ -125,7 +125,7 @@ export const strLen = (str: string): number => {
  * @param upper 最大值
  * @returns number
  */
-export const Random = (lower: number, upper: number): number => {
+export function Random(lower: number, upper: number): number {
   lower = +lower || 0
   upper = +upper || 0
   return Math.random() * (upper - lower) + lower
@@ -142,7 +142,7 @@ export const Random = (lower: number, upper: number): number => {
  * addStr('121432432432432', 3, '|') // '121|432|432|432|432'
  * ```
  */
-export const addStr = (str: string, num: number, add = '\n'): string => {
+export function addStr(str: string, num: number, add = '\n'): string {
   const arr = str ? str.split('') : [] // 要先判断字符串是否有字符 然后将它分割成数组
   let newStr = ''
   arr.forEach((item: string, index: number) => {

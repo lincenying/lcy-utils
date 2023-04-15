@@ -1,6 +1,8 @@
-export const timestamp = () => +Date.now()
+export function timestamp() {
+  return +Date.now()
+}
 
-export const getDate = (str?: string | number): Date => {
+export function getDate(str?: string | number): Date {
   let newDate
   const re = /^[\d]+$/
   if (str) {
@@ -33,7 +35,7 @@ export const getDate = (str?: string | number): Date => {
  * @param publishTime 时间戳: 10位时间戳/13位时间戳/任何时间格式
  * @returns string
  */
-export const getDateDiff = (time: string): string => {
+export function getDateDiff(time: string): string {
   const timeNow = Math.floor(new Date().getTime() / 1000)
   const timeNowYear = new Date().getFullYear()
 
@@ -84,7 +86,7 @@ export const getDateDiff = (time: string): string => {
  * @param add 需要添加的天数
  * @returns 日期
  */
-export const UTC2Date = (utc?: string | number, format?: string, add?: number): string => {
+export function UTC2Date(utc?: string | number, format?: string, add?: number): string {
   if (!format)
     format = 'yyyy-mm-dd'
 

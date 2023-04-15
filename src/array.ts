@@ -214,7 +214,7 @@ export function shuffle<T>(array: T[]): T[] {
  * // { 1:"AAA", 2:"BBB", 3:"CCC", 4:"DDD" }
  * ```
  */
-export const arrayToObject = (arr: any[], key = 'value', val = 'name') => {
+export function arrayToObject(arr: any[], key = 'value', val = 'name') {
   const obj: Record<string, string | number> = {}
   arr.forEach((item) => {
     obj[item[key]] = item[val]
