@@ -1,5 +1,5 @@
 {
-  "name": "lcy-utils",
+  "name": "@linfuling/utils",
   "type": "module",
   "version": "0.3.0",
   "packageManager": "pnpm@7.0.1",
