@@ -1,51 +1,25 @@
 import { toString } from './base'
 
-export function isDef<T = any>(val?: T): val is T {
-  return typeof val !== 'undefined'
-}
-export function isBoolean(val: any): val is boolean {
-  return typeof val === 'boolean'
-}
-export function isFunction<T extends Function>(val: any): val is T {
-  return typeof val === 'function'
-}
+export const isDef = <T = any>(val?: T): val is T => typeof val !== 'undefined'
+export const isBoolean = (val: any): val is boolean => typeof val === 'boolean'
+export const isFunction = <T extends Function> (val: any): val is T => typeof val === 'function'
 export const isInt = Number.isInteger
 export const isArray = Array.isArray
-export function isNumber(val: any): val is number {
-  return typeof val === 'number'
-}
-export function isString(val: unknown): val is string {
-  return typeof val === 'string'
-}
-export function isObject(val: any): val is object {
-  return toString(val) === '[object Object]'
-}
-export function isUndefined(val: any): val is undefined {
-  return toString(val) === '[object Undefined]'
-}
-export function isNull(val: any): val is null {
-  return toString(val) === '[object Null]'
-}
-export function isRegExp(val: any): val is RegExp {
-  return toString(val) === '[object RegExp]'
-}
-export function isDate(val: any): val is Date {
-  return toString(val) === '[object Date]'
-}
-export function isMap(val: any): val is Map<any, any> {
-  return toString(val) === '[object Map]'
-}
-export function isSet(val: any): val is Set<any> {
-  return toString(val) === '[object Set]'
-}
+export const isNumber = (val: any): val is number => typeof val === 'number'
+export const isString = (val: unknown): val is string => typeof val === 'string'
+export const isObject = (val: any): val is object => toString(val) === '[object Object]'
+export const isUndefined = (val: any): val is undefined => toString(val) === '[object Undefined]'
+export const isNull = (val: any): val is null => toString(val) === '[object Null]'
+export const isRegExp = (val: any): val is RegExp => toString(val) === '[object RegExp]'
+export const isDate = (val: any): val is Date => toString(val) === '[object Date]'
+export const isMap = (val: any): val is Map<any, any> => toString(val) === '[object Map]'
+export const isSet = (val: any): val is Set<any> => toString(val) === '[object Set]'
 export function isPromise<T = any>(obj: any): obj is Promise<T> {
   return obj && typeof obj.then === 'function'
 }
 
 // @ts-ignore
-export function isWindow(val: any): boolean {
-  return typeof window !== 'undefined' && toString(val) === '[object Window]'
-}
+export const isWindow = (val: any): boolean => typeof window !== 'undefined' && toString(val) === '[object Window]'
 // @ts-ignore
 export const isBrowser = typeof window !== 'undefined'
 
