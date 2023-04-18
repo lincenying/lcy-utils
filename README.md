@@ -1,9 +1,9 @@
-# @linfuling/utils
+# @lincy/utils
 
 Usage
 
 ```bash
-pnpm install @linfuling/utils
+pnpm install @lincy/utils
 ```
 
 License
