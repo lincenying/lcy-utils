@@ -67,6 +67,12 @@ export function objectEntries<T extends object>(obj: T) {
   return Object.entries(obj) as Array<[keyof T, T[keyof T]]>
 }
 
+/**
+ * 深度对比对象
+ * @param a 对象1
+ * @param b 对象2
+ * @returns true | false
+ */
 export function deepEqual<T>(a: T, b: T): boolean {
   if (a === b)
     return true
