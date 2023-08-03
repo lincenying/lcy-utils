@@ -33,9 +33,10 @@ export function getDate(str?: string | number): Date {
 /**
  * 某时间和当前时间的间隔
  * @param publishTime 时间戳: 10位时间戳/13位时间戳/任何时间格式
- * @returns string
+ * @param backString 返回字符串还是数组
+ * @returns string | number[]
  */
-export function getDateDiff(time: string): string {
+export function getDateDiff(time: string, backString = true): string | number[] {
   const timeNow = Math.floor(new Date().getTime() / 1000)
   const timeNowYear = new Date().getFullYear()
 
@@ -55,28 +56,33 @@ export function getDateDiff(time: string): string {
   const d_minutes = Math.floor(d / 60)
   const d_seconds = d
 
-  if (d_days > 0 && d_days < 3) {
-    return `${d_days}天前`
-  }
-  else if (d_days <= 0 && d_hours > 0) {
-    return `${d_hours}小时前`
-  }
-  else if (d_hours <= 0 && d_minutes > 0) {
-    return `${d_minutes}分钟前`
-  }
-  else if (d_seconds < 60) {
-    if (d_seconds <= 0)
-      return '刚刚'
+  if (backString) {
+    if (d_days > 0 && d_days < 3) {
+      return `${d_days}天前`
+    }
+    else if (d_days <= 0 && d_hours > 0) {
+      return `${d_hours}小时前`
+    }
+    else if (d_hours <= 0 && d_minutes > 0) {
+      return `${d_minutes}分钟前`
+    }
+    else if (d_seconds < 60) {
+      if (d_seconds <= 0)
+        return '刚刚'
 
-    return `${d_seconds}秒前`
+      return `${d_seconds}秒前`
+    }
+    else if (d_days >= 3 && timeNowYear === Y) {
+      return `${M < 10 ? '0' : ''}${M}-${D < 10 ? '0' : ''}${D} ${H < 10 ? '0' : ''}${H}:${m < 10 ? '0' : ''}${m}`
+    }
+    else if (timeNowYear !== Y) {
+      return `${Y}-${M < 10 ? '0' : ''}${M}-${D < 10 ? '0' : ''}${D} ${H < 10 ? '0' : ''}${H}:${m < 10 ? '0' : ''}${m}`
+    }
+    return ''
   }
-  else if (d_days >= 3 && timeNowYear === Y) {
-    return `${M < 10 ? '0' : ''}${M}-${D < 10 ? '0' : ''}${D} ${H < 10 ? '0' : ''}${H}:${m < 10 ? '0' : ''}${m}`
+  else {
+    return [d_days, d_hours, d_minutes, d_seconds]
   }
-  else if (timeNowYear !== Y) {
-    return `${Y}-${M < 10 ? '0' : ''}${M}-${D < 10 ? '0' : ''}${D} ${H < 10 ? '0' : ''}${H}:${m < 10 ? '0' : ''}${m}`
-  }
-  return ''
 }
 
 /**
