@@ -33,10 +33,9 @@ export function getDate(str?: string | number): Date {
 /**
  * 某时间和当前时间的间隔
  * @param publishTime 时间戳: 10位时间戳/13位时间戳/任何时间格式
- * @param backString 返回字符串还是数组
- * @returns string | number[]
+ * @returns string
  */
-export function getDateDiff(time: string, backString = true): string | number[] {
+export function getDateDiff(time: string): string {
   const timeNow = Math.floor(new Date().getTime() / 1000)
   const timeNowYear = new Date().getFullYear()
 
@@ -56,33 +55,28 @@ export function getDateDiff(time: string, backString = true): string | number[] 
   const d_minutes = Math.floor(d / 60)
   const d_seconds = d
 
-  if (backString) {
-    if (d_days > 0 && d_days < 3) {
-      return `${d_days}天前`
-    }
-    else if (d_days <= 0 && d_hours > 0) {
-      return `${d_hours}小时前`
-    }
-    else if (d_hours <= 0 && d_minutes > 0) {
-      return `${d_minutes}分钟前`
-    }
-    else if (d_seconds < 60) {
-      if (d_seconds <= 0)
-        return '刚刚'
+  if (d_days > 0 && d_days < 3) {
+    return `${d_days}天前`
+  }
+  else if (d_days <= 0 && d_hours > 0) {
+    return `${d_hours}小时前`
+  }
+  else if (d_hours <= 0 && d_minutes > 0) {
+    return `${d_minutes}分钟前`
+  }
+  else if (d_seconds < 60) {
+    if (d_seconds <= 0)
+      return '刚刚'
 
-      return `${d_seconds}秒前`
-    }
-    else if (d_days >= 3 && timeNowYear === Y) {
-      return `${M < 10 ? '0' : ''}${M}-${D < 10 ? '0' : ''}${D} ${H < 10 ? '0' : ''}${H}:${m < 10 ? '0' : ''}${m}`
-    }
-    else if (timeNowYear !== Y) {
-      return `${Y}-${M < 10 ? '0' : ''}${M}-${D < 10 ? '0' : ''}${D} ${H < 10 ? '0' : ''}${H}:${m < 10 ? '0' : ''}${m}`
-    }
-    return ''
+    return `${d_seconds}秒前`
   }
-  else {
-    return [d_days, d_hours, d_minutes, d_seconds]
+  else if (d_days >= 3 && timeNowYear === Y) {
+    return `${M < 10 ? '0' : ''}${M}-${D < 10 ? '0' : ''}${D} ${H < 10 ? '0' : ''}${H}:${m < 10 ? '0' : ''}${m}`
   }
+  else if (timeNowYear !== Y) {
+    return `${Y}-${M < 10 ? '0' : ''}${M}-${D < 10 ? '0' : ''}${D} ${H < 10 ? '0' : ''}${H}:${m < 10 ? '0' : ''}${m}`
+  }
+  return ''
 }
 
 /**
@@ -125,4 +119,27 @@ export function UTC2Date(utc?: string | number, format?: string, add?: number): 
     .replace('s', second.toString())
     .replace('SSS', (millisecond < 100 ? '0' : '') + (millisecond < 10 ? '0' : '') + millisecond.toString())
     .replace('S', millisecond.toString())
+}
+
+/**
+ * 接受两个时间戳参数，计算它们之间的差值，并返回以天、小时、分钟和秒表示的结果
+ * @param timestamp1 时间戳: 10位时间戳/13位时间戳/任何时间格式
+ * @param timestamp2 时间戳: 10位时间戳/13位时间戳/任何时间格式
+ * @returns [天, 小时, 分, 秒]
+ */
+export function subtractTimestamps(timestamp1: string, timestamp2: string): number[] {
+  const date1 = getDate(timestamp1)
+  const publishTime1 = date1.getTime()
+
+  const date2 = getDate(timestamp2)
+  const publishTime2 = date2.getTime()
+
+  const millisecondsDiff = Math.abs(publishTime2 - publishTime1)
+
+  const seconds = Math.floor(millisecondsDiff / 1000)
+  const minutes = Math.floor(seconds / 60) % 60
+  const hours = Math.floor(seconds / 3600) % 24
+  const days = Math.floor(seconds / 86400)
+
+  return [days, hours, minutes, seconds % 60]
 }
