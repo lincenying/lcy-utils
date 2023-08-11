@@ -37,7 +37,7 @@
     "dev": "nr build --watch",
     "lint": "eslint . --ext .ts",
     "prepublishOnly": "npm run build",
-    "release": "bumpp --commit --push --tag && npm publish",
+    "release": "bumpp --commit --push --tag && npm publish --access public",
     "start": "esno src/index.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest"
