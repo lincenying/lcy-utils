@@ -2,6 +2,7 @@ import { toString } from './base'
 
 export const isDef = <T = any>(val?: T): val is T => typeof val !== 'undefined'
 export const isBoolean = (val: any): val is boolean => typeof val === 'boolean'
+// eslint-disable-next-line @typescript-eslint/ban-types
 export const isFunction = <T extends Function> (val: any): val is T => typeof val === 'function'
 export const isInt = Number.isInteger
 export const isArray = Array.isArray
@@ -15,7 +16,7 @@ export const isDate = (val: any): val is Date => toString(val) === '[object Date
 export const isMap = (val: any): val is Map<any, any> => toString(val) === '[object Map]'
 export const isSet = (val: any): val is Set<any> => toString(val) === '[object Set]'
 export function isPromise<T = any>(obj: any): obj is Promise<T> {
-  return obj && typeof obj.then === 'function'
+    return obj && typeof obj.then === 'function'
 }
 
 // @ts-ignore
@@ -29,13 +30,13 @@ export const isBrowser = typeof window !== 'undefined'
  * @returns true | false
  */
 function _isEmpty(payload: any) {
-  if (isObject(payload) && Object.keys(payload).length === 0)
-    return true
-  else if (Array.isArray(payload) && payload.length === 0)
-    return true
-  else if (payload === '' || isUndefined(payload) || isNull(payload))
-    return true
-  return false
+    if (isObject(payload) && Object.keys(payload).length === 0)
+        return true
+    else if (Array.isArray(payload) && payload.length === 0)
+        return true
+    else if (payload === '' || isUndefined(payload) || isNull(payload))
+        return true
+    return false
 }
 
 /**
@@ -44,7 +45,7 @@ function _isEmpty(payload: any) {
  * @returns true | false
  */
 export function isEmpty(payload: any): boolean {
-  return !isNumber(payload) && !isBoolean(payload) && _isEmpty(payload)
+    return !isNumber(payload) && !isBoolean(payload) && _isEmpty(payload)
 }
 
 /**
@@ -53,5 +54,5 @@ export function isEmpty(payload: any): boolean {
  * @returns true | false
  */
 export function isFalse(payload: any): boolean {
-  return !!payload === false || (!isBoolean(payload) && !isNumber(payload) && _isEmpty(payload))
+    return !!payload === false || (!isBoolean(payload) && !isNumber(payload) && _isEmpty(payload))
 }

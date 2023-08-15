@@ -4,14 +4,14 @@ import type { Fn, Nullable } from './types'
  * 调用数组中的每个函数
  */
 export function batchInvoke(functions: Nullable<Fn>[]) {
-  functions.forEach(fn => fn && fn())
+    functions.forEach(fn => fn && fn())
 }
 
 /**
  * 调用函数
  */
 export function invoke(fn: Fn) {
-  return fn()
+    return fn()
 }
 
 /**
@@ -27,6 +27,6 @@ export function invoke(fn: Fn) {
  * ```
  */
 export function tap<T>(value: T, callback: (value: T) => void): T {
-  callback(value)
-  return value
+    callback(value)
+    return value
 }

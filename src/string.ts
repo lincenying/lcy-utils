@@ -4,7 +4,7 @@
  * @category String
  */
 export function slash(str: string) {
-  return str.replace(/\\/g, '/')
+    return str.replace(/\\/g, '/')
 }
 
 /**
@@ -13,9 +13,9 @@ export function slash(str: string) {
  * @category String
  */
 export function ensurePrefix(prefix: string, str: string) {
-  if (!str.startsWith(prefix))
-    return prefix + str
-  return str
+    if (!str.startsWith(prefix))
+        return prefix + str
+    return str
 }
 
 /**
@@ -24,9 +24,9 @@ export function ensurePrefix(prefix: string, str: string) {
  * @category String
  */
 export function ensureSuffix(suffix: string, str: string) {
-  if (!str.endsWith(suffix))
-    return str + suffix
-  return str
+    if (!str.endsWith(suffix))
+        return str + suffix
+    return str
 }
 
 /**
@@ -43,12 +43,12 @@ export function ensureSuffix(suffix: string, str: string) {
  * ```
  */
 export function template(str: string, ...args: any[]): string {
-  return str.replace(/{(\d+)}/g, (match, key) => {
-    const index = Number(key)
-    if (Number.isNaN(index))
-      return match
-    return args[index]
-  })
+    return str.replace(/{(\d+)}/g, (match, key) => {
+        const index = Number(key)
+        if (Number.isNaN(index))
+            return match
+        return args[index]
+    })
 }
 
 // port from nanoid
@@ -59,12 +59,12 @@ const urlAlphabet = 'useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwy
  * @category String
  */
 export function randomStr(size = 16, dict = urlAlphabet) {
-  let id = ''
-  let i = size
-  const len = dict.length
-  while (i--)
-    id += dict[(Math.random() * len) | 0]
-  return id
+    let id = ''
+    let i = size
+    const len = dict.length
+    while (i--)
+        id += dict[(Math.random() * len) | 0]
+    return id
 }
 
 /**
@@ -76,7 +76,7 @@ export function randomStr(size = 16, dict = urlAlphabet) {
  * ```
  */
 export function capitalize(str: string): string {
-  return str[0].toUpperCase() + str.slice(1).toLowerCase()
+    return str[0].toUpperCase() + str.slice(1).toLowerCase()
 }
 
 // 将字符串中的横线模式替换成驼峰模式
@@ -91,11 +91,11 @@ export function capitalize(str: string): string {
  * ```
  */
 export function transformStr(str: string): string {
-  const strArr = str.split('-')
-  for (let i = 1; i < strArr.length; i++)
-    strArr[i] = strArr[i].charAt(0).toUpperCase() + strArr[i].substring(1)
+    const strArr = str.split('-')
+    for (let i = 1; i < strArr.length; i++)
+        strArr[i] = strArr[i].charAt(0).toUpperCase() + strArr[i].substring(1)
 
-  return strArr.join('')
+    return strArr.join('')
 }
 
 /**
@@ -107,16 +107,16 @@ export function transformStr(str: string): string {
  * ```
  */
 export function strLen(str: string): number {
-  let len = 0
-  for (let i = 0; i < str.length; i++) {
-    const c = str.charCodeAt(i)
-    // 单字节加1
-    if ((c >= 0x0001 && c <= 0x007E) || (c >= 0xFF60 && c <= 0xFF9F))
-      len++
-    else
-      len += 2
-  }
-  return len
+    let len = 0
+    for (let i = 0; i < str.length; i++) {
+        const c = str.charCodeAt(i)
+        // 单字节加1
+        if ((c >= 0x0001 && c <= 0x007E) || (c >= 0xFF60 && c <= 0xFF9F))
+            len++
+        else
+            len += 2
+    }
+    return len
 }
 
 /**
@@ -126,9 +126,9 @@ export function strLen(str: string): number {
  * @returns number
  */
 export function Random(lower: number, upper: number): number {
-  lower = +lower || 0
-  upper = +upper || 0
-  return Math.random() * (upper - lower) + lower
+    lower = +lower || 0
+    upper = +upper || 0
+    return Math.random() * (upper - lower) + lower
 }
 
 /**
@@ -143,12 +143,12 @@ export function Random(lower: number, upper: number): number {
  * ```
  */
 export function addStr(str: string, num: number, add = '\n'): string {
-  const arr = str ? str.split('') : [] // 要先判断字符串是否有字符 然后将它分割成数组
-  let newStr = ''
-  arr.forEach((item: string, index: number) => {
-    newStr += item
-    if ((index + 1) % num === 0 && index !== arr.length - 1)
-      newStr += add
-  })
-  return newStr
+    const arr = str ? str.split('') : [] // 要先判断字符串是否有字符 然后将它分割成数组
+    let newStr = ''
+    arr.forEach((item: string, index: number) => {
+        newStr += item
+        if ((index + 1) % num === 0 && index !== arr.length - 1)
+            newStr += add
+    })
+    return newStr
 }
