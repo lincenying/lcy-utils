@@ -33,6 +33,7 @@
     "*.d.ts"
   ],
   "scripts": {
+    "postpublish": "open https://npmmirror.com/package/@lincy/utils",
     "build": "rollup -c",
     "dev": "nr build --watch",
     "lint": "eslint . --ext .ts",
