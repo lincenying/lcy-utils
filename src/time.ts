@@ -82,7 +82,7 @@ export function getDateDiff(time: string): string {
 /**
  * 简单的日期格式化
  * @param utc 时间戳: 10位时间戳/13位时间戳/任何时间格式
- * @param format 时间格式 yyyy-mm-dd hh-ii-ss.SSS | yyyy-m-d h-i-s.S
+ * @param format 时间格式 yyyy-mm-dd hh:ii:ss.SSS | yyyy-m-d h:i:s.S
  * @param add 需要添加的天数
  * @returns 日期
  */
