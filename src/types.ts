@@ -4,6 +4,11 @@
 export type Awaitable<T> = T | PromiseLike<T>
 
 /**
+ * 非 Null 类型
+ */
+export type NonNullable<T> = T extends null | undefined ? never : T
+
+/**
  * Null or whatever
  */
 export type Nullable<T> = T | null | undefined
