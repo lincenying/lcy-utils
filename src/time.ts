@@ -1,9 +1,11 @@
+import type { Nullable } from './types'
+
 export function timestamp() {
     return +Date.now()
 }
 
 export function getDate(str?: string | number): Date {
-    let newDate
+    let newDate: Nullable<Date> = null
     const re = /^[\d]+$/
     if (str) {
         if (typeof str === 'number')
@@ -21,7 +23,7 @@ export function getDate(str?: string | number): Date {
             }
         }
         catch (error) {
-
+            newDate = new Date()
         }
     }
     if (!newDate)
@@ -106,19 +108,19 @@ export function UTC2Date(utc?: string | number, format?: string, add?: number): 
     const monthString = month < 10 ? `0${month}` : `${month}`
 
     return format
-        .replace('yyyy', year.toString())
+        .replace('yyyy', `${year}`)
         .replace('mm', monthString)
-        .replace('m', month.toString())
-        .replace('dd', (day < 10 ? '0' : '') + day.toString())
-        .replace('d', day.toString())
-        .replace('hh', (hour < 10 ? '0' : '') + hour.toString())
-        .replace('h', hour.toString())
-        .replace('ii', (minute < 10 ? '0' : '') + minute.toString())
-        .replace('i', minute.toString())
-        .replace('ss', (second < 10 ? '0' : '') + second.toString())
-        .replace('s', second.toString())
-        .replace('SSS', (millisecond < 100 ? '0' : '') + (millisecond < 10 ? '0' : '') + millisecond.toString())
-        .replace('S', millisecond.toString())
+        .replace('m', `${month}`)
+        .replace('dd', `${(day < 10 ? '0' : '') + day}`)
+        .replace('d', `${day}`)
+        .replace('hh', `${(hour < 10 ? '0' : '') + hour}`)
+        .replace('h', `${hour}`)
+        .replace('ii', `${(minute < 10 ? '0' : '') + minute}`)
+        .replace('i', `${minute}`)
+        .replace('ss', `${(second < 10 ? '0' : '') + second}`)
+        .replace('s', `${second}`)
+        .replace('SSS', `${(millisecond < 100 ? '0' : '') + (millisecond < 10 ? '0' : '') + millisecond}`)
+        .replace('S', `${millisecond}`)
 }
 
 /**
