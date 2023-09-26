@@ -50,6 +50,9 @@ devDependencies:
   rollup-plugin-esbuild:
     specifier: ^5.0.0
     version: 5.0.0(rollup@3.28.0)
+  simple-open-url:
+    specifier: ^3.0.1
+    version: 3.0.1
   throttle-debounce:
     specifier: 5.0.0
     version: 5.0.0
@@ -3406,6 +3409,11 @@ packages:
 
   /siginfo@2.0.0:
     resolution: {integrity: sha512-ybx0WO1/8bSBLEWXZvEd7gMW3Sn3JFlW3TvX1nREbDLRNQNaeNN8WK0meBwPdAaOI7TtRRRJn/Es1zhrrCHu7g==}
+    dev: true
+
+  /simple-open-url@3.0.1:
+    resolution: {integrity: sha512-JDp3wXr1Ibm3JP7jrm0t2CuKwox2wl51ArEm1DlkEbiLwzGz5jJHxcR96pKZRnVBNLbZDynNInGMANdK+q15zA==}
+    hasBin: true
     dev: true
 
   /sisteransi@1.0.5:
