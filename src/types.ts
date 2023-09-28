@@ -1,17 +1,12 @@
 /**
- * Promise, or maybe not
+ * Null or whatever
  */
-export type Awaitable<T> = T | PromiseLike<T>
+export type Nullable<T> = T | null | undefined
 
 /**
  * 非 Null 类型
  */
 export type NonNullable<T> = T extends null | undefined ? never : T
-
-/**
- * Null or whatever
- */
-export type Nullable<T> = T | null | undefined
 
 /**
  * Array, or not yet
@@ -28,14 +23,22 @@ export type Obj = Record<string, any>
 export type ObjT<T> = Record<string, T>
 
 /**
+ * Function
+ */
+export type Fn<T = void> = () => T
+/**
  * Any Function
  */
 export type AnyFn = (...args: any[]) => any
 
 /**
- * Function
+ * Promise Function
  */
-export type Fn<T = void> = () => T
+export type PromiseFn<T> = (...args: any[]) => Promise<T>
+/**
+ * Promise, or maybe not
+ */
+export type Awaitable<T> = T | PromiseLike<T>
 
 /**
  * Constructor
