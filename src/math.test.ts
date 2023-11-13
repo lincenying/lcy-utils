@@ -6,6 +6,6 @@ it('sum', () => {
     expect(sum([1, 2, 3])).toEqual(6)
     expect(sum([1], [2, 3])).toEqual(6)
 
-    // @ts-expect-error
+    // @ts-expect-error 通过!
     expect(sum(1, 2, [1, 2, 3])).toEqual(9)
 })

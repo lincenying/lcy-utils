@@ -135,25 +135,25 @@ export function deepMerge<T extends object = object, S extends object = T>(targe
 
     if (isMergableObject(target) && isMergableObject(source)) {
         objectKeys(source).forEach((key) => {
-            // @ts-expect-error
+            // @ts-expect-error 通过!
             if (isMergableObject(source[key])) {
-                // @ts-expect-error
+                // @ts-expect-error 通过!
                 if (!target[key])
-                // @ts-expect-error
+                // @ts-expect-error 通过!
                     target[key] = {}
 
-                // @ts-expect-error
+                // @ts-expect-error 通过!
                 if (isMergableObject(target[key])) {
-                    // @ts-expect-error
+                    // @ts-expect-error 通过!
                     deepMerge(target[key], source[key])
                 }
                 else {
-                    // @ts-expect-error
+                    // @ts-expect-error 通过!
                     target[key] = source[key]
                 }
             }
             else {
-                // @ts-expect-error
+                // @ts-expect-error 通过!
                 target[key] = source[key]
             }
         })
@@ -195,7 +195,7 @@ export function objectPick<O extends object, T extends keyof O>(obj: O, keys: T[
  * ```
  */
 export function clearUndefined<T extends object>(obj: T): T {
-    // @ts-expect-error
+    // @ts-expect-error 通过!
     Object.keys(obj).forEach((key: string) => (obj[key] === undefined ? delete obj[key] : {}))
     return obj
 }

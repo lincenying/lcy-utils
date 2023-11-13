@@ -1,4 +1,4 @@
-import { Obj, ObjT } from "./types";
+import type { Obj, ObjT } from './types'
 
 /**
  * 序列化查询参数
@@ -11,9 +11,9 @@ import { Obj, ObjT } from "./types";
  */
 export function objectToQueryString(obj: Obj): string {
     const queryString = Object.keys(obj)
-        .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
-        .join("&");
-    return queryString;
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
+        .join('&')
+    return queryString
 }
 
 /**
@@ -26,14 +26,13 @@ export function objectToQueryString(obj: Obj): string {
  * ```
  */
 export function queryStringToObject(queryString: string): ObjT<string> {
-    const params = new URLSearchParams(queryString);
-    const obj: ObjT<string> = {};
+    const params = new URLSearchParams(queryString)
+    const obj: ObjT<string> = {}
 
-    for (const [key, value] of params.entries()) {
-        obj[key] = value;
-    }
+    for (const [key, value] of params.entries())
+        obj[key] = value
 
-    return obj;
+    return obj
 }
 
 /**

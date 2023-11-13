@@ -2,7 +2,6 @@ import { toString } from './base'
 
 export const isDef = <T = any>(val?: T): val is T => typeof val !== 'undefined'
 export const isBoolean = (val: any): val is boolean => typeof val === 'boolean'
-// eslint-disable-next-line @typescript-eslint/ban-types
 export const isFunction = <T extends Function> (val: any): val is T => typeof val === 'function'
 export const isInt = Number.isInteger
 export const isArray = Array.isArray
@@ -19,9 +18,7 @@ export function isPromise<T = any>(obj: any): obj is Promise<T> {
     return obj && typeof obj.then === 'function'
 }
 
-// @ts-ignore
 export const isWindow = (val: any): boolean => typeof window !== 'undefined' && toString(val) === '[object Window]'
-// @ts-ignore
 export const isBrowser = typeof window !== 'undefined'
 
 /**

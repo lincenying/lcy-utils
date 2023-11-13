@@ -3,13 +3,13 @@ import { objectToQueryString, parseUrl, queryStringToObject } from './url'
 
 it('Url', () => {
     expect(objectToQueryString({ id: 123, name: 'test1' })).toMatchInlineSnapshot('"id=123&name=test1"')
-    expect(queryStringToObject("id=123&name=test1")).toMatchInlineSnapshot(`
+    expect(queryStringToObject('id=123&name=test1')).toMatchInlineSnapshot(`
       {
         "id": "123",
         "name": "test1",
       }
     `)
-    expect(queryStringToObject("?id=123&name=test1")).toMatchInlineSnapshot(`
+    expect(queryStringToObject('?id=123&name=test1')).toMatchInlineSnapshot(`
       {
         "id": "123",
         "name": "test1",

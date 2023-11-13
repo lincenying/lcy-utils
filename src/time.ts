@@ -34,7 +34,7 @@ export function getDate(str?: string | number): Date {
 
 /**
  * 某时间和当前时间的间隔
- * @param publishTime 时间戳: 10位时间戳/13位时间戳/任何时间格式
+ * @param time 时间戳: 10位时间戳/13位时间戳/任何时间格式
  * @returns string
  */
 export function getDateDiff(time: string): string {
