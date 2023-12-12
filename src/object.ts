@@ -123,6 +123,9 @@ export function deepClone<T extends Record<string, any>>(obj: T): T {
 /**
  * 对象深度合并 :P
  *
+ * 第一个参数是目标对象，其余参数是源对象。
+ * 目标对象将被改变并返回
+ *
  * @category Object
  */
 export function deepMerge<T extends object = object, S extends object = T>(target: T, ...sources: S[]): DeepMerge<T, S> {
@@ -135,6 +138,9 @@ export function deepMerge<T extends object = object, S extends object = T>(targe
 
     if (isMergableObject(target) && isMergableObject(source)) {
         objectKeys(source).forEach((key) => {
+            if (key === '__proto__' || key === 'constructor' || key === 'prototype')
+                return
+
             // @ts-expect-error 通过!
             if (isMergableObject(source[key])) {
                 // @ts-expect-error 通过!
@@ -160,6 +166,62 @@ export function deepMerge<T extends object = object, S extends object = T>(targe
     }
 
     return deepMerge(target, ...sources)
+}
+
+/**
+ * 深度合并
+ *
+ * 与“deepMerge”的不同之处在于它合并数组而不是覆盖它们。
+ *
+ * 第一个参数是目标对象，其余参数是源对象。
+ * 目标对象将被改变并返回
+ *
+ * @category Object
+ */
+export function deepMergeWithArray<T extends object = object, S extends object = T>(target: T, ...sources: S[]): DeepMerge<T, S> {
+    if (!sources.length)
+        return target as any
+
+    const source = sources.shift()
+    if (source === undefined)
+        return target as any
+
+    if (Array.isArray(target) && Array.isArray(source))
+        target.push(...source)
+
+    if (isMergableObject(target) && isMergableObject(source)) {
+        objectKeys(source).forEach((key) => {
+            if (key === '__proto__' || key === 'constructor' || key === 'prototype')
+                return
+
+            // @ts-expect-error 通过!
+            if (Array.isArray(source[key])) {
+                // @ts-expect-error 通过!
+                if (!target[key])
+                // @ts-expect-error 通过!
+                    target[key] = []
+
+                // @ts-expect-error 通过!
+                deepMergeWithArray(target[key], source[key])
+            }
+            // @ts-expect-error 通过!
+            else if (isMergableObject(source[key])) {
+                // @ts-expect-error 通过!
+                if (!target[key])
+                // @ts-expect-error 通过!
+                    target[key] = {}
+
+                // @ts-expect-error 通过!
+                deepMergeWithArray(target[key], source[key])
+            }
+            else {
+                // @ts-expect-error 通过!
+                target[key] = source[key]
+            }
+        })
+    }
+
+    return deepMergeWithArray(target, ...sources)
 }
 
 function isMergableObject(item: any): item is object {
