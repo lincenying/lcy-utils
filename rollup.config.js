@@ -8,6 +8,9 @@ import alias from '@rollup/plugin-alias'
 const entries = [
     'src/index.ts',
 ]
+const umdEntries = [
+    'src/index.umd.ts',
+]
 
 const plugins = [
     alias({
@@ -17,6 +20,7 @@ const plugins = [
     }),
     resolve({
         preferBuiltins: true,
+        mainFields: ['browser'],
     }),
     json(),
     commonjs(),
@@ -36,6 +40,18 @@ export default [
             {
                 file: input.replace('src/', 'dist/').replace('.ts', '.cjs'),
                 format: 'cjs',
+            },
+        ],
+        external: [],
+        plugins,
+    })),
+    ...umdEntries.map(input => ({
+        input,
+        output: [
+            {
+                file: input.replace('src/', 'dist/').replace('.ts', '.js'),
+                format: 'umd',
+                name: 'utils',
             },
         ],
         external: [],

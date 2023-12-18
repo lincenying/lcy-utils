@@ -1,9 +1,5 @@
 import { flattenArrayable } from './array'
 
-export function clamp(n: number, min: number, max: number) {
-    return Math.min(max, Math.max(min, n))
-}
-
 /**
  * 求和
  * @param args 多个数值或数组

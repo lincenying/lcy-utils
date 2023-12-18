@@ -1,6 +1,8 @@
-import { clamp } from './math'
 import type { Arrayable, Nullable } from './types'
 
+export function clamp(n: number, min: number, max: number) {
+    return Math.min(max, Math.max(min, n))
+}
 /**
  * Convert `Arrayable<T>` to `Array<T>`
  *
