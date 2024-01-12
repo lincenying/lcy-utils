@@ -127,9 +127,9 @@ export function UTC2Date(utc?: string | number, format?: string, add?: number): 
  * 接受两个时间戳参数，计算它们之间的差值，并返回以天、小时、分钟和秒表示的结果
  * @param timestamp1 时间戳: 10位时间戳/13位时间戳/任何时间格式
  * @param timestamp2 时间戳: 10位时间戳/13位时间戳/任何时间格式
- * @returns [天, 小时, 分, 秒]
+ * @returns [天, 小时, 分, 秒, 两位数小时, 两位数分, 两位数秒]
  */
-export function subtractTimestamps(timestamp1: string, timestamp2: string): number[] {
+export function subtractTimestamps(timestamp1: string, timestamp2: string): [number, number, number, number, string, string, string] {
     const date1 = getDate(timestamp1)
     const publishTime1 = date1.getTime()
 
@@ -143,5 +143,9 @@ export function subtractTimestamps(timestamp1: string, timestamp2: string): numb
     const hours = Math.floor(seconds / 3600) % 24
     const days = Math.floor(seconds / 86400)
 
-    return [days, hours, minutes, seconds % 60]
+    const HH = hours < 10 ? `0${hours}` : `${hours}`
+    const MM = minutes < 10 ? `0${minutes}` : `${minutes}`
+    const SS = seconds < 10 ? `0${seconds}` : `${seconds}`
+
+    return [days, hours, minutes, seconds % 60, HH, MM, SS]
 }
