@@ -143,9 +143,11 @@ export function subtractTimestamps(timestamp1: string, timestamp2: string): [num
     const hours = Math.floor(seconds / 3600) % 24
     const days = Math.floor(seconds / 86400)
 
+    const s = seconds % 60
+
     const HH = hours < 10 ? `0${hours}` : `${hours}`
     const MM = minutes < 10 ? `0${minutes}` : `${minutes}`
-    const SS = seconds < 10 ? `0${seconds % 60}` : `${seconds % 60}`
+    const SS = seconds < 10 ? `0${s}` : `${s}`
 
-    return [days, hours, minutes, seconds % 60, HH, MM, SS]
+    return [days, hours, minutes, s, HH, MM, SS]
 }
