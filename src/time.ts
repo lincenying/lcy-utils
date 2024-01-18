@@ -147,7 +147,7 @@ export function subtractTimestamps(timestamp1: string, timestamp2: string): [num
 
     const HH = hours < 10 ? `0${hours}` : `${hours}`
     const MM = minutes < 10 ? `0${minutes}` : `${minutes}`
-    const SS = seconds < 10 ? `0${s}` : `${s}`
+    const SS = s < 10 ? `0${s}` : `${s}`
 
     return [days, hours, minutes, s, HH, MM, SS]
 }
