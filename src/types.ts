@@ -16,11 +16,7 @@ export type Arrayable<T> = T | Array<T>
 /**
  * 键为字符串, 值为 Any 的对象
  */
-export type Obj = Record<string, any>
-/**
- * 键为字符串, 值为 T 的对象
- */
-export type ObjT<T> = Record<string, T>
+export type Objable<T = any> = Record<string, T>
 
 /**
  * Function

@@ -1,4 +1,4 @@
-import type { Obj, ObjT } from './types'
+import type { Objable } from './types'
 
 /**
  * 序列化查询参数
@@ -9,7 +9,7 @@ import type { Obj, ObjT } from './types'
  * objectToQueryString({ id: 123, name: 'test1' }) // id=123&name=test1
  * ```
  */
-export function objectToQueryString(obj: Obj): string {
+export function objectToQueryString(obj: Objable): string {
     const queryString = Object.keys(obj)
         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
         .join('&')
@@ -25,9 +25,9 @@ export function objectToQueryString(obj: Obj): string {
  * queryStringToObject("?id=123&name=test1") // {id: '123', name: 'test1'}
  * ```
  */
-export function queryStringToObject(queryString: string): ObjT<string> {
+export function queryStringToObject(queryString: string): Objable<string> {
     const params = new URLSearchParams(queryString)
-    const obj: ObjT<string> = {}
+    const obj: Objable<string> = {}
 
     for (const [key, value] of params.entries())
         obj[key] = value
