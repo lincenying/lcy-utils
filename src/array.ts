@@ -1,10 +1,10 @@
-import type { Arrayable, Nullable } from './types'
+import type { Arrayable, Nullable, Objable } from './types'
 
 export function clamp(n: number, min: number, max: number) {
     return Math.min(max, Math.max(min, n))
 }
 /**
- * Convert `Arrayable<T>` to `Array<T>`
+ * 将 `Arrayable<T>` 转换成 `Array<T>`
  *
  * @category Array
  */
@@ -14,7 +14,7 @@ export function toArray<T>(array?: Nullable<Arrayable<T>>): Array<T> {
 }
 
 /**
- * Convert `Arrayable<T>` to `Array<T>` and flatten it
+ * 将 `Arrayable<T>` 转换成 `Array<T>` 并且压平
  *
  * @category Array
  */
@@ -72,7 +72,7 @@ export function uniq<T>(array: readonly T[]): T[] {
 }
 
 /**
- * 用自定义的相等函数唯一一个数组
+ * 通过自定义函数去除数组里的重复数据
  *
  * @category Array
  */
@@ -192,9 +192,10 @@ export function sample<T>(arr: T[], quantity: number) {
 }
 
 /**
- * 打乱一个数组。 这个函数改变原数组。
+ * 随机打乱一个数组
  *
  * @category Array
+ * @description 这个函数改变原数组
  */
 export function shuffle<T>(array: T[]): T[] {
     for (let i = array.length - 1; i > 0; i--) {
@@ -205,7 +206,7 @@ export function shuffle<T>(array: T[]): T[] {
 }
 
 /**
- * 数组转对象
+ * 对象数组转对象
  * @param arr 数组
  * @param key
  * @param val
@@ -217,7 +218,7 @@ export function shuffle<T>(array: T[]): T[] {
  * ```
  */
 export function arrayToObject(arr: any[], key = 'value', val = 'name') {
-    const obj: Record<string, string | number> = {}
+    const obj: Objable<string | number> = {}
     arr.forEach((item) => {
         obj[item[key]] = item[val]
     })

@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest'
-import { addStr, capitalize, ensurePrefix, ensureSuffix, slash, strLen, template, transformStr } from './string'
+import { addStr, capitalize, ensurePrefix, ensureSuffix, parseCookies, slash, strLen, template, transformStr } from './string'
 
 it('template', () => {
     expect(
@@ -15,6 +15,7 @@ it('template', () => {
             '{0} + {1} = {2}{3}',
             1,
             '1',
+            // @ts-expect-error disallow non-literal on type
             { v: 2 },
             [2, 3],
         ),
@@ -69,4 +70,12 @@ it('strLen', () => {
 
 it('addStr', () => {
     expect(addStr('121432432432432', 3, '|')).toEqual('121|432|432|432|432')
+})
+
+it('parseCookies', () => {
+    expect(parseCookies('event_filter=all; sidebar_collapsed=false; auto_devops_settings_dismissed=true;')).toEqual({
+        auto_devops_settings_dismissed: 'true',
+        event_filter: 'all',
+        sidebar_collapsed: 'false',
+    })
 })

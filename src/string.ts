@@ -4,6 +4,12 @@ import { isObject } from './is'
  * 将反斜杠替换为斜杠
  *
  * @category String
+ * @example
+ * ```
+ * slash('\\123') => '/123'
+ * slash('\\\\') => '//'
+ * slash('\\\h\\\i') => '/h/i'
+ * ```
  */
 export function slash(str: string) {
     return str.replace(/\\/g, '/')
@@ -13,6 +19,11 @@ export function slash(str: string) {
  * 确保字符串的前缀
  *
  * @category String
+ * @example
+ * ```
+ * ensurePrefix('abc', 'abcdef') // 'abcdef'
+ * ensurePrefix('hi ', 'jack') // 'hi jack'
+ * ```
  */
 export function ensurePrefix(prefix: string, str: string) {
     if (!str.startsWith(prefix))
@@ -24,6 +35,11 @@ export function ensurePrefix(prefix: string, str: string) {
  * 确保字符串的后缀
  *
  * @category String
+ * @example
+ * ```
+ * ensureSuffix('world', 'hello ') // 'hello world'
+ * ensureSuffix('123', 'abc123') // 'abc123'
+ * ```
  */
 export function ensureSuffix(suffix: string, str: string) {
     if (!str.endsWith(suffix))
@@ -85,7 +101,10 @@ export function template(str: string, ...args: any[]): string {
 const urlAlphabet = 'useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict'
 /**
  * 生成随机字符串
+ *
  * @category String
+ * @param [size] 字符串长度
+ * @param [dict] 字典
  */
 export function randomStr(size = 16, dict = urlAlphabet) {
     let id = ''
@@ -98,7 +117,9 @@ export function randomStr(size = 16, dict = urlAlphabet) {
 
 /**
  * 首字母大写，其他小写
+ *
  * @category string
+ * @param str 需要转换的字符串
  * @example
  * ```
  * capitalize('hello') => 'Hello'
@@ -108,10 +129,10 @@ export function capitalize(str: string): string {
     return str[0].toUpperCase() + str.slice(1).toLowerCase()
 }
 
-// 将字符串中的横线模式替换成驼峰模式
-// a-bc-df => aBcDf
 /**
  * 将字符串中的横线模式替换成驼峰模式
+ *
+ * @category String
  * @param str string
  * @returns string
  * @example
@@ -133,6 +154,7 @@ export function transformStr(str: string): string {
  * @example
  * ```
  * strLen('hello') // 5
+ * strLen('中国') // 4
  * ```
  */
 export function strLen(str: string): number {
@@ -150,6 +172,7 @@ export function strLen(str: string): number {
 
 /**
  * 返回一个lower - upper之间的随机数
+ * @category String
  * @param lower 最小值
  * @param upper 最大值
  * @returns number
@@ -162,6 +185,7 @@ export function Random(lower: number, upper: number): number {
 
 /**
  * 在固定位置添加字符串
+ * @category String
  * @param str 需要处理的字符串
  * @param num 每num个字符
  * @param add 需要添加的字符
@@ -180,4 +204,30 @@ export function addStr(str: string, num: number, add = '\n'): string {
             newStr += add
     })
     return newStr
+}
+
+/**
+ * 解析cookie字符串
+ * @category String
+ * @param cookies cookies字符串
+ * @returns object
+ * @example
+ * ```
+ * parseCookies('key1=all; key2=false; key3=true;')
+ * // { key3: 'true', key1: 'all', key2: 'false' }
+ * ```
+ */
+export function parseCookies(cookies: string): { [key: string]: string } {
+    const cookieArr = cookies.split(';')
+    const cookieObj: { [key: string]: string } = {}
+    cookieArr.forEach((cookie) => {
+        const [key, value] = cookie.split('=')
+        if (key && value) {
+            const cookieKey = key.trim()
+            const cookieValue = decodeURIComponent(value.trim())
+            cookieObj[cookieKey] = cookieValue
+        }
+    })
+
+    return cookieObj
 }

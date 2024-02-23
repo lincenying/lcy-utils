@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest'
 import { objectToQueryString, parseUrl, queryStringToObject } from './url'
 
-it('Url', () => {
+it('url', () => {
     expect(objectToQueryString({ id: 123, name: 'test1' })).toMatchInlineSnapshot('"id=123&name=test1"')
     expect(queryStringToObject('id=123&name=test1')).toMatchInlineSnapshot(`
       {

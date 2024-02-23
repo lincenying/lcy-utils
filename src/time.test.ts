@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest'
 import { UTC2Date, subtractTimestamps } from './time'
 
-it('Time', () => {
+it('time', () => {
     // expect(getDate('1680009213681')).toMatchInlineSnapshot('2023-03-28T13:13:33.681Z')
     // expect(getDate('1680009213')).toMatchInlineSnapshot('2023-03-28T13:13:33.000Z')
     // expect(getDate('2023/03/28')).toMatchInlineSnapshot('2023-03-27T16:00:00.000Z')
