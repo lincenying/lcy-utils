@@ -1,5 +1,5 @@
 /**
- * 输入 Guard 以过滤出近似为空的值
+ * 过滤`null-ish`值
  *
  * @category Guards
  * @example array.filter(notNullish)
@@ -9,7 +9,7 @@ export function notNullish<T>(v: T | null | undefined): v is NonNullable<T> {
 }
 
 /**
- * 输入 Guard 以过滤空值
+ * 过滤`null`
  *
  * @category Guards
  * @example array.filter(noNull)
@@ -19,7 +19,7 @@ export function noNull<T>(v: T | null): v is Exclude<T, null> {
 }
 
 /**
- * 输入 guard 以过滤出近似为空的值
+ * 过滤`null-ish`值
  *
  * @category Guards
  * @example array.filter(notUndefined)
@@ -29,7 +29,7 @@ export function notUndefined<T>(v: T): v is Exclude<T, undefined> {
 }
 
 /**
- * 输入 guard 过滤掉虚假值
+ * 过滤`假`值
  *
  * @category Guards
  * @example array.filter(isTruthy)
