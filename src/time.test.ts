@@ -18,21 +18,27 @@ it('time', () => {
     // expect(getDateDiff('2023-01-28')).toMatchInlineSnapshot('"01-28 00:00"')
     // expect(getDateDiff('2022-01-28')).toMatchInlineSnapshot('"2022-01-28 00:00"')
     expect(subtractTimestamps('2022-01-28', '2022-01-29')).toMatchInlineSnapshot(`
-    [
-      1,
-      0,
-      0,
-      0,
-    ]
-  `)
+      [
+        1,
+        0,
+        0,
+        0,
+        "00",
+        "00",
+        "00",
+      ]
+    `)
     expect(subtractTimestamps('2022-01-28 12:12:12', '2022-01-29 13:13:13')).toMatchInlineSnapshot(`
-    [
-      1,
-      1,
-      1,
-      1,
-    ]
-  `)
+      [
+        1,
+        1,
+        1,
+        1,
+        "01",
+        "01",
+        "01",
+      ]
+    `)
 
     expect(UTC2Date('2023/03/28', 'yyyy-mm-dd')).toEqual('2023-03-28')
     expect(UTC2Date('2023-03-28', 'yyyy-mm-dd')).toEqual('2023-03-28')
