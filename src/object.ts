@@ -1,3 +1,4 @@
+import { isDeepEqual } from './equal'
 import { notNullish } from './guards'
 import { isObject } from './is'
 import type { DeepMerge } from './types'
@@ -74,30 +75,7 @@ export function objectEntries<T extends object>(obj: T) {
  * @returns true | false
  */
 export function deepEqual<T>(a: T, b: T): boolean {
-    if (a === b)
-        return true
-
-    if (typeof a !== typeof b || a === null || b === null || Array.isArray(a) !== Array.isArray(b))
-        return false
-
-    if (typeof a === 'object' && typeof b === 'object') {
-        const keysA = Object.keys(a)
-        const keysB = Object.keys(b)
-
-        if (keysA.length !== keysB.length)
-            return false
-
-        for (const key of keysA) {
-            const valA = a[key as keyof typeof a]
-            const valB = b[key as keyof typeof b]
-            if (!deepEqual(valA, valB))
-                return false
-        }
-
-        return true
-    }
-
-    return false
+    return isDeepEqual(a, b)
 }
 
 /**
