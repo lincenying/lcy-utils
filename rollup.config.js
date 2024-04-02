@@ -4,6 +4,7 @@ import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import alias from '@rollup/plugin-alias'
+import rollupDelete from 'rollup-plugin-delete'
 
 const entries = [
     'src/index.ts',
@@ -30,7 +31,7 @@ const plugins = [
 ]
 
 export default [
-    ...entries.map(input => ({
+    ...entries.map((input, index) => ({
         input,
         output: [
             {
@@ -43,7 +44,14 @@ export default [
             },
         ],
         external: [],
-        plugins,
+        plugins: [
+            ...(index === 0 ? [
+                rollupDelete({
+                    targets: 'dist/*', // 指定要删除的目标文件夹或文件的路径
+                }),
+            ] : []),
+            ...plugins,
+        ],
     })),
     ...umdEntries.map(input => ({
         input,
