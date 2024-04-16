@@ -79,8 +79,9 @@ export function uniq<T>(array: readonly T[]): T[] {
 export function uniqueBy<T>(array: readonly T[], equalFn: (a: any, b: any) => boolean): T[] {
     return array.reduce((acc: T[], cur: any) => {
         const index = acc.findIndex((item: any) => equalFn(cur, item))
-        if (index === -1)
+        if (index === -1) {
             acc.push(cur)
+        }
         return acc
     }, [])
 }
@@ -102,8 +103,9 @@ export function last<T>(array: readonly T[]): T | undefined {
  * @category Array
  */
 export function remove<T>(array: T[], value: T) {
-    if (!array)
+    if (!array) {
         return false
+    }
     const index = array.indexOf(value)
     if (index >= 0) {
         array.splice(index, 1)
@@ -121,11 +123,13 @@ export function at(array: readonly [], index: number): undefined
 export function at<T>(array: readonly T[], index: number): T
 export function at<T>(array: readonly T[] | [], index: number): T | undefined {
     const len = array.length
-    if (!len)
+    if (!len) {
         return undefined
+    }
 
-    if (index < 0)
+    if (index < 0) {
         index += len
+    }
 
     return array[index]
 }

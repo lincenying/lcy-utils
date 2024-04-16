@@ -82,8 +82,9 @@ export function deepEqual<T>(a: T, b: T): boolean {
  * 深度克隆对象
  */
 export function deepClone<T extends Record<string, any>>(obj: T): T {
-    if (obj === null || typeof obj !== 'object')
+    if (obj === null || typeof obj !== 'object') {
         return obj
+    }
 
     const isArray = Array.isArray(obj)
     const clone = (isArray ? [] : {}) as T
@@ -107,24 +108,28 @@ export function deepClone<T extends Record<string, any>>(obj: T): T {
  * @category Object
  */
 export function deepMerge<T extends object = object, S extends object = T>(target: T, ...sources: S[]): DeepMerge<T, S> {
-    if (!sources.length)
+    if (!sources.length) {
         return target as any
+    }
 
     const source = sources.shift()
-    if (source === undefined)
+    if (source === undefined) {
         return target as any
+    }
 
     if (isMergableObject(target) && isMergableObject(source)) {
         objectKeys(source).forEach((key) => {
-            if (key === '__proto__' || key === 'constructor' || key === 'prototype')
+            if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
                 return
+            }
 
             // @ts-expect-error 通过!
             if (isMergableObject(source[key])) {
                 // @ts-expect-error 通过!
-                if (!target[key])
-                // @ts-expect-error 通过!
+                if (!target[key]) {
+                    // @ts-expect-error 通过!
                     target[key] = {}
+                }
 
                 // @ts-expect-error 通过!
                 if (isMergableObject(target[key])) {
@@ -157,27 +162,32 @@ export function deepMerge<T extends object = object, S extends object = T>(targe
  * @category Object
  */
 export function deepMergeWithArray<T extends object = object, S extends object = T>(target: T, ...sources: S[]): DeepMerge<T, S> {
-    if (!sources.length)
+    if (!sources.length) {
         return target as any
+    }
 
     const source = sources.shift()
-    if (source === undefined)
+    if (source === undefined) {
         return target as any
+    }
 
-    if (Array.isArray(target) && Array.isArray(source))
+    if (Array.isArray(target) && Array.isArray(source)) {
         target.push(...source)
+    }
 
     if (isMergableObject(target) && isMergableObject(source)) {
         objectKeys(source).forEach((key) => {
-            if (key === '__proto__' || key === 'constructor' || key === 'prototype')
+            if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
                 return
+            }
 
             // @ts-expect-error 通过!
             if (Array.isArray(source[key])) {
                 // @ts-expect-error 通过!
-                if (!target[key])
-                // @ts-expect-error 通过!
+                if (!target[key]) {
+                    // @ts-expect-error 通过!
                     target[key] = []
+                }
 
                 // @ts-expect-error 通过!
                 deepMergeWithArray(target[key], source[key])
@@ -185,9 +195,10 @@ export function deepMergeWithArray<T extends object = object, S extends object =
             // @ts-expect-error 通过!
             else if (isMergableObject(source[key])) {
                 // @ts-expect-error 通过!
-                if (!target[key])
-                // @ts-expect-error 通过!
+                if (!target[key]) {
+                    // @ts-expect-error 通过!
                     target[key] = {}
+                }
 
                 // @ts-expect-error 通过!
                 deepMergeWithArray(target[key], source[key])
@@ -218,8 +229,9 @@ function isMergableObject(item: any): item is object {
 export function objectPick<O extends object, T extends keyof O>(obj: O, keys: T[], omitUndefined = false) {
     return keys.reduce((n, k) => {
         if (k in obj) {
-            if (!omitUndefined || obj[k] !== undefined)
+            if (!omitUndefined || obj[k] !== undefined) {
                 n[k] = obj[k]
+            }
         }
         return n
     }, {} as Pick<O, T>)
@@ -247,7 +259,8 @@ export function clearUndefined<T extends object>(obj: T): T {
  * @category Object
  */
 export function hasOwnProperty<T>(obj: T, v: PropertyKey) {
-    if (obj == null)
+    if (obj == null) {
         return false
+    }
     return Object.prototype.hasOwnProperty.call(obj, v)
 }

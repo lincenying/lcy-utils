@@ -29,8 +29,9 @@ export function queryStringToObject(queryString: string): Objable<string> {
     const params = new URLSearchParams(queryString)
     const obj: Objable<string> = {}
 
-    for (const [key, value] of params.entries())
+    for (const [key, value] of params.entries()) {
         obj[key] = value
+    }
 
     return obj
 }

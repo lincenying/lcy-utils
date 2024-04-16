@@ -51,8 +51,9 @@ export function RGB2Hex(color: string): string {
  * ```
  */
 export function batchHexToRgba(arr: any[]) {
-    if (!arr)
+    if (!arr) {
         return []
+    }
     arr = arr.map((item) => {
         if (Array.isArray(item)) {
             return batchHexToRgba(item)
@@ -63,14 +64,16 @@ export function batchHexToRgba(arr: any[]) {
         else if (item.indexOf('rgba(') === 0) {
             const re = /rgba\(\s*([\d]+)\s*,\s*([\d]+)\s*,\s*([\d]+)\s*,\s*([\d]+)\s*\)/i
             const match = re.exec(item)
-            if (match)
+            if (match) {
                 return `${match[1]},${match[2]},${match[3]}`
+            }
         }
         else if (item.indexOf('rgb(') === 0) {
             const re = /rgb\(\s*([\d]+)\s*,\s*([\d]+)\s*,\s*([\d]+)\s*\)/i
             const match = re.exec(item)
-            if (match)
+            if (match) {
                 return `${match[1]},${match[2]},${match[3]}`
+            }
         }
         return item
     })

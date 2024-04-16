@@ -1,6 +1,7 @@
 export function assert(condition: boolean, message: string): asserts condition {
-    if (!condition)
+    if (!condition) {
         throw new Error(message)
+    }
 }
 
 export function toString(v: any) {
@@ -8,8 +9,9 @@ export function toString(v: any) {
 }
 
 export function getTypeName(v: any) {
-    if (v === null)
+    if (v === null) {
         return 'null'
+    }
     const type = toString(v).slice(8, -1).toLowerCase()
     return (typeof v === 'object' || typeof v === 'function') ? type : typeof v
 }
@@ -32,8 +34,9 @@ export function getScrollWidth(): number {
         top: '-999px',
     }
     // sets all the styles on testDiv
-    for (const attr in cssAttributes)
+    for (const attr in cssAttributes) {
         (testDiv.style as any)[attr] = (cssAttributes as any)[attr]
+    }
 
     // adds the testDiv to the DOM
     document.body.appendChild(testDiv)

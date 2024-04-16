@@ -8,14 +8,17 @@ export function getDate(str?: string | number): Date {
     let newDate: Nullable<Date> = null
     const re = /^[\d]+$/
     if (str) {
-        if (typeof str === 'number')
+        if (typeof str === 'number') {
             str = `${str}`
+        }
         try {
             if (re.test(str)) {
-                if (str.length === 10)
+                if (str.length === 10) {
                     newDate = new Date(Number(`${str}000`))
-                else if (str.length === 13)
+                }
+                else if (str.length === 13) {
                     newDate = new Date(Number(str))
+                }
             }
             else {
                 str = str.replace(/-/g, '/').replace('.000000', '')
@@ -26,8 +29,9 @@ export function getDate(str?: string | number): Date {
             newDate = new Date()
         }
     }
-    if (!newDate)
+    if (!newDate) {
         newDate = new Date()
+    }
 
     return newDate
 }
@@ -67,8 +71,9 @@ export function getDateDiff(time: string): string {
         return `${d_minutes}分钟前`
     }
     else if (d_seconds < 60) {
-        if (d_seconds <= 0)
+        if (d_seconds <= 0) {
             return '刚刚'
+        }
 
         return `${d_seconds}秒前`
     }
@@ -89,13 +94,15 @@ export function getDateDiff(time: string): string {
  * @returns 日期
  */
 export function UTC2Date(utc?: string | number, format?: string, add?: number): string {
-    if (!format)
+    if (!format) {
         format = 'yyyy-mm-dd'
+    }
 
     let newDate = getDate(utc)
 
-    if (add)
+    if (add) {
         newDate = new Date(newDate.setDate(newDate.getDate() + add))
+    }
 
     const year = newDate.getFullYear()
     const month = newDate.getMonth() + 1

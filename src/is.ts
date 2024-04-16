@@ -27,12 +27,15 @@ export const isBrowser = typeof window !== 'undefined'
  * @returns true | false
  */
 function _isEmpty(payload: any) {
-    if (isObject(payload) && Object.keys(payload).length === 0)
+    if (isObject(payload) && Object.keys(payload).length === 0) {
         return true
-    else if (Array.isArray(payload) && payload.length === 0)
+    }
+    else if (Array.isArray(payload) && payload.length === 0) {
         return true
-    else if (payload === '' || isUndefined(payload) || isNull(payload))
+    }
+    else if (payload === '' || isUndefined(payload) || isNull(payload)) {
         return true
+    }
     return false
 }
 

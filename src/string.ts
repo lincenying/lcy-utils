@@ -26,8 +26,9 @@ export function slash(str: string) {
  * ```
  */
 export function ensurePrefix(prefix: string, str: string) {
-    if (!str.startsWith(prefix))
+    if (!str.startsWith(prefix)) {
         return prefix + str
+    }
     return str
 }
 
@@ -42,8 +43,9 @@ export function ensurePrefix(prefix: string, str: string) {
  * ```
  */
 export function ensureSuffix(suffix: string, str: string) {
-    if (!str.endsWith(suffix))
+    if (!str.endsWith(suffix)) {
         return str + suffix
+    }
     return str
 }
 
@@ -89,8 +91,9 @@ export function template(str: string, ...args: any[]): string {
     else {
         return str.replace(/{(\d+)}/g, (_, key) => {
             const index = Number(key)
-            if (Number.isNaN(index))
+            if (Number.isNaN(index)) {
                 return key
+            }
             return args[index]
         })
     }
@@ -110,8 +113,9 @@ export function randomStr(size = 16, dict = urlAlphabet) {
     let id = ''
     let i = size
     const len = dict.length
-    while (i--)
+    while (i--) {
         id += dict[(Math.random() * len) | 0]
+    }
     return id
 }
 
@@ -142,8 +146,9 @@ export function capitalize(str: string): string {
  */
 export function transformStr(str: string): string {
     const strArr = str.split('-')
-    for (let i = 1; i < strArr.length; i++)
+    for (let i = 1; i < strArr.length; i++) {
         strArr[i] = strArr[i].charAt(0).toUpperCase() + strArr[i].substring(1)
+    }
 
     return strArr.join('')
 }
@@ -162,10 +167,10 @@ export function strLen(str: string): number {
     for (let i = 0; i < str.length; i++) {
         const c = str.charCodeAt(i)
         // 单字节加1
-        if ((c >= 0x0001 && c <= 0x007E) || (c >= 0xFF60 && c <= 0xFF9F))
+        if ((c >= 0x0001 && c <= 0x007E) || (c >= 0xFF60 && c <= 0xFF9F)) {
             len++
-        else
-            len += 2
+        }
+        else { len += 2 }
     }
     return len
 }
@@ -200,8 +205,9 @@ export function addStr(str: string, num: number, add = '\n'): string {
     let newStr = ''
     arr.forEach((item: string, index: number) => {
         newStr += item
-        if ((index + 1) % num === 0 && index !== arr.length - 1)
+        if ((index + 1) % num === 0 && index !== arr.length - 1) {
             newStr += add
+        }
     })
     return newStr
 }

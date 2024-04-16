@@ -44,19 +44,19 @@
     "test": "vitest"
   },
   "devDependencies": {
-    "@lincy/eslint-config": "^4.3.0",
+    "@lincy/eslint-config": "^4.4.0",
     "@rollup/plugin-alias": "^5.1.0",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
-    "@types/node": "^20.12.2",
+    "@types/node": "^20.12.7",
     "@types/throttle-debounce": "^5.0.2",
     "bumpp": "^9.4.0",
     "eslint": "^8.57.0",
     "esno": "^4.7.0",
     "lint-staged": "^15.2.2",
     "p-limit": "^5.0.0",
-    "rollup": "^4.13.2",
+    "rollup": "^4.14.3",
     "rollup-plugin-delete": "^2.0.0",
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-esbuild": "^6.1.1",
@@ -64,9 +64,9 @@
     "simple-open-url": "^3.0.1",
     "throttle-debounce": "5.0.0",
     "tslib": "^2.6.2",
-    "typescript": "^5.4.3",
-    "vite": "^5.2.7",
-    "vitest": "^1.4.0"
+    "typescript": "^5.4.5",
+    "vite": "^5.2.9",
+    "vitest": "^1.5.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
