@@ -102,60 +102,66 @@ export function template(str: string, ...args: any[]): string {
 // port from nanoid
 // https://github.com/ai/nanoid
 const urlAlphabet = 'useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict'
+
 /**
- * 生成随机字符串
- *
- * @category String
- * @param [size] 字符串长度
- * @param [dict] 字典
+ * 生成一个随机字符串。
+ * @param {number} size 随机字符串的长度，默认为16。
+ * @param {string} dict 用于生成随机字符串的字符集，默认为urlAlphabet。
+ * @returns {string} 生成的随机字符串。
  */
 export function randomStr(size = 16, dict = urlAlphabet) {
-    let id = ''
-    let i = size
-    const len = dict.length
+    let id = '' // 初始化生成的字符串
+    let i = size // 初始化剩余字符数量
+    const len = dict.length // 字符集的长度
+
+    // 循环生成随机字符串
     while (i--) {
-        id += dict[(Math.random() * len) | 0]
+        id += dict[(Math.random() * len) | 0] // 从字符集中随机选择一个字符并添加到生成的字符串中
     }
-    return id
+
+    return id // 返回生成的随机字符串
 }
 
 /**
- * 首字母大写，其他小写
- *
- * @category string
- * @param str 需要转换的字符串
+ * 将给定字符串的第一个字符转换为大写，其余字符转换为小写。
+ * @param str 待转换的字符串。
+ * @returns 转换后的字符串。
  * @example
  * ```
  * capitalize('hello') => 'Hello'
  * ```
  */
 export function capitalize(str: string): string {
+    // 将字符串的第一个字符转为大写，其余部分转为小写并拼接
     return str[0].toUpperCase() + str.slice(1).toLowerCase()
 }
 
 /**
- * 将字符串中的横线模式替换成驼峰模式
- *
- * @category String
- * @param str string
- * @returns string
+ * 将给定字符串按照连字符('-')分割，并将分割后的每个部分的首字母大写，然后将这些部分重新连接成一个字符串。
+ * @param str 需要转换的字符串。
+ * @returns 转换后的字符串，其中每个由连字符分隔的部分的首字母都将大写。
  * @example
  * ```
  * transformStr('a-bc-df') // aBcDf
  * ```
  */
 export function transformStr(str: string): string {
+    // 通过连字符('-')分割输入字符串 into an array of substrings
     const strArr = str.split('-')
+
+    // 遍历数组，将每个部分的首字母转换为大写
     for (let i = 1; i < strArr.length; i++) {
         strArr[i] = strArr[i].charAt(0).toUpperCase() + strArr[i].substring(1)
     }
 
+    // 将处理后的数组重新连接为一个字符串并返回
     return strArr.join('')
 }
 
 /**
- * 计算字符串长度, 汉字算2
- * @category string
+ * 计算字符串的长度，考虑到中文等双字节字符，该函数能够准确计算字符串中字符的数量。
+ * @param str 需要计算长度的字符串。
+ * @returns 返回字符串的长度，其中单字节字符计为1，双字节字符计为2。
  * @example
  * ```
  * strLen('hello') // 5
@@ -166,45 +172,48 @@ export function strLen(str: string): number {
     let len = 0
     for (let i = 0; i < str.length; i++) {
         const c = str.charCodeAt(i)
-        // 单字节加1
+        // 判断字符是否为单字节，若是则长度加1
         if ((c >= 0x0001 && c <= 0x007E) || (c >= 0xFF60 && c <= 0xFF9F)) {
             len++
         }
-        else { len += 2 }
+        else { len += 2 } // 若是双字节字符，长度加2
     }
     return len
 }
 
 /**
- * 返回一个lower - upper之间的随机数
- * @category String
- * @param lower 最小值
- * @param upper 最大值
- * @returns number
+ * 生成一个在指定范围内的随机数。
+ * @param lower 下限，如果未指定，则默认为0。
+ * @param upper 上限，如果未指定，则默认为0。
+ * @returns 在给定下限和上限范围内的随机数。
  */
 export function Random(lower: number, upper: number): number {
+    // 将输入的下限和上限转换为数字类型，并设置默认值为0
     lower = +lower || 0
     upper = +upper || 0
+    // 返回一个介于下限和上限之间的随机数
     return Math.random() * (upper - lower) + lower
 }
 
 /**
- * 在固定位置添加字符串
- * @category String
- * @param str 需要处理的字符串
- * @param num 每num个字符
- * @param add 需要添加的字符
- * @returns string
+ * 将字符串按照指定长度分隔，并在分隔处添加指定字符。
+ * @param str 需要处理的原始字符串。
+ * @param num 指定每个分隔段的长度。
+ * @param add 分隔时添加的字符，默认为换行符 '\n'。
+ * @returns 处理后的字符串。
  * @example
  * ```
  * addStr('121432432432432', 3, '|') // '121|432|432|432|432'
  * ```
  */
 export function addStr(str: string, num: number, add = '\n'): string {
-    const arr = str ? str.split('') : [] // 要先判断字符串是否有字符 然后将它分割成数组
+    // 判断字符串是否为空，若不为空则按字符分割成数组
+    const arr = str ? str.split('') : []
     let newStr = ''
+    // 遍历数组，每num个字符添加一次分隔符
     arr.forEach((item: string, index: number) => {
         newStr += item
+        // 检查是否达到指定的分隔长度，并且不是最后一个字符
         if ((index + 1) % num === 0 && index !== arr.length - 1) {
             newStr += add
         }
@@ -213,10 +222,9 @@ export function addStr(str: string, num: number, add = '\n'): string {
 }
 
 /**
- * 解析cookie字符串
- * @category String
- * @param cookies cookies字符串
- * @returns object
+ * 解析cookie字符串为一个对象
+ * @param cookies 要解析的cookie字符串
+ * @returns 返回一个对象，每个键值对代表一个cookie
  * @example
  * ```
  * parseCookies('key1=all; key2=false; key3=true;')
@@ -224,13 +232,18 @@ export function addStr(str: string, num: number, add = '\n'): string {
  * ```
  */
 export function parseCookies(cookies: string): { [key: string]: string } {
+    // 将cookie字符串按分号分割为数组
     const cookieArr = cookies.split(';')
     const cookieObj: { [key: string]: string } = {}
+    // 遍历cookie数组，解析每个cookie
     cookieArr.forEach((cookie) => {
+        // 将cookie按等号分割为键和值
         const [key, value] = cookie.split('=')
         if (key && value) {
+            // 去除键和值两边的空格，并对值进行URL解码
             const cookieKey = key.trim()
             const cookieValue = decodeURIComponent(value.trim())
+            // 将解析出的键值对添加到cookie对象中
             cookieObj[cookieKey] = cookieValue
         }
     })
