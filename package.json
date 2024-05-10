@@ -86,6 +86,6 @@
     "pre-commit": "npx lint-staged"
   },
   "lint-staged": {
-    "*.{[jt]s?(x)}": "eslint --fix"
+    "*.[jt]s?(x)": "eslint --fix"
   }
 }
