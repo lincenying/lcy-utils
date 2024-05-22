@@ -108,6 +108,26 @@ export function isPromise<T = any>(obj: any): obj is Promise<T> {
 }
 
 /**
+ * 检查给定的字符串是否为有效的电子邮件地址
+ * @param email 待检查的电子邮件地址
+ * @returns 如果邮箱地址有效，返回true，否则返回false
+ */
+export function isEmail(email: string): boolean {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    return emailRegex.test(email)
+}
+
+/**
+ * 检查给定的字符串是否为中国大陆的有效手机号码
+ * @param phoneNumber 待检查的手机号码
+ * @returns 如果手机号码有效，返回true，否则返回false
+ */
+export function isPhoneNumber(phoneNumber: string): boolean {
+    const phoneRegex = /^1[3-9]\d{9}$/ // 匹配13到19开头的11位数字
+    return phoneRegex.test(phoneNumber)
+}
+
+/**
  * 检查一个值是否为浏览器的window对象。
  * @param val 任意类型的值，将被检查是否为window对象。
  * @returns 返回一个布尔值，如果该值是window对象，则为true，否则为false。
