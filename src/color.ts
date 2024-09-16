@@ -71,7 +71,7 @@ export function batchHexToRgba(arr: any[]) {
         }
         else if (item.indexOf('rgba(') === 0) {
             // 处理rgba颜色值
-            const re = /rgba\(\s*([\d]+)\s*,\s*([\d]+)\s*,\s*([\d]+)\s*,\s*([\d]+)\s*\)/i
+            const re = /rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*\d+\s*\)/i
             const match = re.exec(item)
             if (match) {
                 return `${match[1]},${match[2]},${match[3]}`
@@ -79,7 +79,7 @@ export function batchHexToRgba(arr: any[]) {
         }
         else if (item.indexOf('rgb(') === 0) {
             // 处理rgb颜色值
-            const re = /rgb\(\s*([\d]+)\s*,\s*([\d]+)\s*,\s*([\d]+)\s*\)/i
+            const re = /rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/i
             const match = re.exec(item)
             if (match) {
                 return `${match[1]},${match[2]},${match[3]}`

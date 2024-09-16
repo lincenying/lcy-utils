@@ -21,7 +21,7 @@ export function timestamp() {
  */
 export function getDate(str?: string | number): Date {
     let newDate: Nullable<Date> = null
-    const re = /^[\d]+$/
+    const re = /^\d+$/
 
     // 根据输入类型尝试解析日期
     if (str) {
@@ -45,6 +45,7 @@ export function getDate(str?: string | number): Date {
             }
         }
         catch (error) {
+            console.log(error)
             // 解析失败时，默认创建当前日期的Date对象
             newDate = new Date()
         }

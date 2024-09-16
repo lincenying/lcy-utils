@@ -86,10 +86,10 @@ export function template(str: string, ...args: any[]): string {
 
     if (isObject(firstArg)) {
         const vars = firstArg as Record<string, any>
-        return str.replace(/{([\w\d]+)}/g, (_, key) => vars[key] || ((typeof fallback === 'function' ? fallback(key) : fallback) ?? key))
+        return str.replace(/\{(\w+)\}/g, (_, key) => vars[key] || ((typeof fallback === 'function' ? fallback(key) : fallback) ?? key))
     }
     else {
-        return str.replace(/{(\d+)}/g, (_, key) => {
+        return str.replace(/\{(\d+)\}/g, (_, key) => {
             const index = Number(key)
             if (Number.isNaN(index)) {
                 return key
@@ -176,7 +176,9 @@ export function strLen(str: string): number {
         if ((c >= 0x0001 && c <= 0x007E) || (c >= 0xFF60 && c <= 0xFF9F)) {
             len++
         }
-        else { len += 2 } // 若是双字节字符，长度加2
+        else {
+            len += 2
+        } // 若是双字节字符，长度加2
     }
     return len
 }

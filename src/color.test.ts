@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest'
-import { RGB2Hex, batchHexToRgba, hexToRgba } from './color'
+import { batchHexToRgba, hexToRgba, RGB2Hex } from './color'
 
 it('is', () => {
     expect(hexToRgba('#ffffff')).toEqual(

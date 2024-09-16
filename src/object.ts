@@ -1,7 +1,7 @@
+import type { DeepMerge } from './types'
 import { isDeepEqual } from './equal'
 import { notNullish } from './guards'
 import { isObject } from './is'
-import type { DeepMerge } from './types'
 
 /**
  * 对象映射函数，将给定对象的键值对通过提供的函数处理后，生成新的对象。
@@ -147,7 +147,6 @@ export function deepMerge<T extends object = object, S extends object = T>(targe
 
                 // @ts-expect-error 通过!
                 if (isMergableObject(target[key])) {
-                    // @ts-expect-error 通过!
                     deepMerge(target[key], source[key])
                 }
                 else {
