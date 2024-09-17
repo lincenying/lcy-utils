@@ -44,8 +44,7 @@ export function getDate(str?: string | number): Date {
                 newDate = new Date(str)
             }
         }
-        catch (error) {
-            console.log(error)
+        catch (_error) {
             // 解析失败时，默认创建当前日期的Date对象
             newDate = new Date()
         }
