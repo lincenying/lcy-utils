@@ -19,7 +19,7 @@ export const isBoolean = (val: any): val is boolean => typeof val === 'boolean'
  * @param val 任意值。
  * @returns 返回一个布尔值，如果该值是函数则为true，否则为false。
  */
-export const isFunction = <T extends Function> (val: any): val is T => typeof val === 'function'
+export const isFunction = <T extends () => void> (val: any): val is T => typeof val === 'function'
 
 /**
  * 检查一个值是否为整数。
@@ -113,7 +113,7 @@ export function isPromise<T = any>(obj: any): obj is Promise<T> {
  * @returns 如果邮箱地址有效，返回true，否则返回false
  */
 export function isEmail(email: string): boolean {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    const emailRegex = /^[\w.%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i
     return emailRegex.test(email)
 }
 
