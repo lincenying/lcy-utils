@@ -18,6 +18,15 @@ export function objectToQueryString(obj: Objable): string {
 }
 
 /**
+ * 解析给定的URL字符串为URL对象。
+ * @param url 待解析的URL字符串。
+ * @returns 返回一个URL对象，该对象表示解析后的URL。
+ */
+export function parseUrl(url: string): URL {
+    return new URL(url)
+}
+
+/**
  * 将查询字符串转换为对象
  * @param queryString 一个表示查询参数的字符串，例如："name=John&age=30"
  * @returns 返回一个对象，其中键值对代表了查询字符串中的参数及其值
@@ -38,13 +47,4 @@ export function queryStringToObject(queryString: string): Objable<string> {
     }
 
     return obj
-}
-
-/**
- * 解析给定的URL字符串为URL对象。
- * @param url 待解析的URL字符串。
- * @returns 返回一个URL对象，该对象表示解析后的URL。
- */
-export function parseUrl(url: string): URL {
-    return new URL(url)
 }

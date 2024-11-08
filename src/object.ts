@@ -4,41 +4,6 @@ import { notNullish } from './guards'
 import { isObject } from './is'
 
 /**
- * 对象映射函数，将给定对象的键值对通过提供的函数处理后，生成新的对象。
- * @param obj - 输入的对象，其键值对将被遍历。
- * @param fn - 处理函数，接收当前键和值作为参数，返回新的键值对数组。如果返回`undefined`，则当前键值对不会被包含在输出对象中。
- * Transform:
- * @example
- * ```
- * objectMap({ a: 1, b: 2 }, (k, v) => [k.toString().toUpperCase(), v.toString()])
- * // { A: '1', B: '2' }
- * ```
- *
- * Swap key/value:
- * @example
- * ```
- * objectMap({ a: 1, b: 2 }, (k, v) => [v, k])
- * // { 1: 'a', 2: 'b' }
- * ```
- *
- * Filter keys:
- * @example
- * ```
- * objectMap({ a: 1, b: 2 }, (k, v) => k === 'a' ? undefined : [k, v])
- * // { b: 2 }
- * ```
- * @returns 返回一个新的对象，其键值对是通过处理函数`fn`处理后的结果。
- */
-export function objectMap<K extends string, V, NK = K, NV = V>(obj: Record<K, V>, fn: (key: K, value: V) => [NK, NV] | undefined): Record<K, V> {
-    // 通过Object.entries将对象转换为键值对数组，然后映射每个键值对并通过处理函数fn进行处理
-    return Object.fromEntries(
-        Object.entries(obj)
-            .map(([k, v]) => fn(k as K, v as V)) // 应用处理函数
-            .filter(notNullish), // 过滤掉fn返回undefined的键值对
-    )
-}
-
-/**
  * 检查一个键是否为给定对象的键。
  * @param obj - 一个泛型对象T。
  * @param k - 需要检查的键。
@@ -49,34 +14,19 @@ export function isKeyOf<T extends object>(obj: T, k: keyof any): k is keyof T {
 }
 
 /**
- * 获取对象中所有可枚举属性的键名数组。
- * @param obj - 一个泛型对象，泛型T必须扩展自object类型。
- * @returns 返回一个数组，数组中的元素类型为`keyof T & (string | number | boolean | null | undefined)`，
- *          即对象键名的字符串形式，保证键名类型安全。
+ * 清除对象中值为undefined的属性。
+ * @param obj 要处理的对象。
+ * @returns 处理后的对象，不包含值为undefined的属性。
+ * @example
+ * ```
+ * clearUndefined({ a: undefined, b:2, c:3, d:4 }) // {b: 2, c: 3, d: 4}
+ * ```
  */
-export function objectKeys<T extends object>(obj: T) {
-    // 使用Object.keys获取对象的键名数组，并通过类型断言确保返回的数组元素类型符合特定的约束。
-    return Object.keys(obj) as Array<`${keyof T & (string | number | boolean | null | undefined)}`>
-}
-
-/**
- * 将对象转换为包含键值对的数组。
- * @param obj - 需要转换的对象。
- * @returns 返回一个数组，其中每个元素都是一个包含对象键和对应值的二元组。
- */
-export function objectEntries<T extends object>(obj: T) {
-    // 将对象的键值对转换为数组形式
-    return Object.entries(obj) as Array<[keyof T, T[keyof T]]>
-}
-
-/**
- * 检查两个值是否深度相等。
- * @param a 第一个要比较的值。
- * @param b 第二个要比较的值。
- * @returns 如果两个值深度相等则返回true，否则返回false。
- */
-export function deepEqual<T>(a: T, b: T): boolean {
-    return isDeepEqual(a, b) // 调用isDeepEqual函数进行深度比较
+export function clearUndefined<T extends object>(obj: T): T {
+    // 遍历对象的每个属性，若值为undefined，则删除该属性
+    // @ts-expect-error 通过!
+    Object.keys(obj).forEach((key: string) => (obj[key] === undefined ? delete obj[key] : {}))
+    return obj
 }
 
 /**
@@ -107,6 +57,16 @@ export function deepClone<T extends Record<string, any>>(obj: T): T {
 
     // 返回克隆出的新对象
     return clone as T
+}
+
+/**
+ * 检查两个值是否深度相等。
+ * @param a 第一个要比较的值。
+ * @param b 第二个要比较的值。
+ * @returns 如果两个值深度相等则返回true，否则返回false。
+ */
+export function deepEqual<T>(a: T, b: T): boolean {
+    return isDeepEqual(a, b) // 调用isDeepEqual函数进行深度比较
 }
 
 /**
@@ -236,6 +196,22 @@ export function deepMergeWithArray<T extends object = object, S extends object =
 }
 
 /**
+ * 检查对象是否拥有指定的属性。
+ * @param obj 要检查的对象。
+ * @param v 要检查的属性键，可以是字符串或符号。
+ * @returns 如果对象拥有指定的属性，则返回true；否则返回false。
+ * @see https://eslint.org/docs/rules/no-prototype-builtins
+ */
+export function hasOwnProperty<T>(obj: T, v: PropertyKey) {
+    // 当对象为null或undefined时，直接返回false
+    if (obj == null) {
+        return false
+    }
+    // 使用Object.prototype.hasOwnProperty确保检查的是对象自身属性，而不是继承来的属性
+    return Object.prototype.hasOwnProperty.call(obj, v)
+}
+
+/**
  * 检查一个项是否为可以合并的对象。
  * @param item 任意类型的项，需要被检查是否为可合并的对象。
  * @returns 返回一个布尔值，如果该项是对象而不是数组，则为true；否则为false。
@@ -243,6 +219,62 @@ export function deepMergeWithArray<T extends object = object, S extends object =
 function isMergableObject(item: any): item is object {
     // 检查项是否为对象且不是数组
     return isObject(item) && !Array.isArray(item)
+}
+
+/**
+ * 将对象转换为包含键值对的数组。
+ * @param obj - 需要转换的对象。
+ * @returns 返回一个数组，其中每个元素都是一个包含对象键和对应值的二元组。
+ */
+export function objectEntries<T extends object>(obj: T) {
+    // 将对象的键值对转换为数组形式
+    return Object.entries(obj) as Array<[keyof T, T[keyof T]]>
+}
+
+/**
+ * 获取对象中所有可枚举属性的键名数组。
+ * @param obj - 一个泛型对象，泛型T必须扩展自object类型。
+ * @returns 返回一个数组，数组中的元素类型为`keyof T & (string | number | boolean | null | undefined)`，
+ *          即对象键名的字符串形式，保证键名类型安全。
+ */
+export function objectKeys<T extends object>(obj: T) {
+    // 使用Object.keys获取对象的键名数组，并通过类型断言确保返回的数组元素类型符合特定的约束。
+    return Object.keys(obj) as Array<`${keyof T & (string | number | boolean | null | undefined)}`>
+}
+
+/**
+ * 对象映射函数，将给定对象的键值对通过提供的函数处理后，生成新的对象。
+ * @param obj - 输入的对象，其键值对将被遍历。
+ * @param fn - 处理函数，接收当前键和值作为参数，返回新的键值对数组。如果返回`undefined`，则当前键值对不会被包含在输出对象中。
+ * Transform:
+ * @example
+ * ```
+ * objectMap({ a: 1, b: 2 }, (k, v) => [k.toString().toUpperCase(), v.toString()])
+ * // { A: '1', B: '2' }
+ * ```
+ *
+ * Swap key/value:
+ * @example
+ * ```
+ * objectMap({ a: 1, b: 2 }, (k, v) => [v, k])
+ * // { 1: 'a', 2: 'b' }
+ * ```
+ *
+ * Filter keys:
+ * @example
+ * ```
+ * objectMap({ a: 1, b: 2 }, (k, v) => k === 'a' ? undefined : [k, v])
+ * // { b: 2 }
+ * ```
+ * @returns 返回一个新的对象，其键值对是通过处理函数`fn`处理后的结果。
+ */
+export function objectMap<K extends string, V, NK = K, NV = V>(obj: Record<K, V>, fn: (key: K, value: V) => [NK, NV] | undefined): Record<K, V> {
+    // 通过Object.entries将对象转换为键值对数组，然后映射每个键值对并通过处理函数fn进行处理
+    return Object.fromEntries(
+        Object.entries(obj)
+            .map(([k, v]) => fn(k as K, v as V)) // 应用处理函数
+            .filter(notNullish), // 过滤掉fn返回undefined的键值对
+    )
 }
 
 /**
@@ -268,36 +300,4 @@ export function objectPick<O extends object, T extends keyof O>(obj: O, keys: T[
         }
         return n
     }, {} as Pick<O, T>) // 初始化为空对象，并通过类型断言指定其类型
-}
-
-/**
- * 清除对象中值为undefined的属性。
- * @param obj 要处理的对象。
- * @returns 处理后的对象，不包含值为undefined的属性。
- * @example
- * ```
- * clearUndefined({ a: undefined, b:2, c:3, d:4 }) // {b: 2, c: 3, d: 4}
- * ```
- */
-export function clearUndefined<T extends object>(obj: T): T {
-    // 遍历对象的每个属性，若值为undefined，则删除该属性
-    // @ts-expect-error 通过!
-    Object.keys(obj).forEach((key: string) => (obj[key] === undefined ? delete obj[key] : {}))
-    return obj
-}
-
-/**
- * 检查对象是否拥有指定的属性。
- * @param obj 要检查的对象。
- * @param v 要检查的属性键，可以是字符串或符号。
- * @returns 如果对象拥有指定的属性，则返回true；否则返回false。
- * @see https://eslint.org/docs/rules/no-prototype-builtins
- */
-export function hasOwnProperty<T>(obj: T, v: PropertyKey) {
-    // 当对象为null或undefined时，直接返回false
-    if (obj == null) {
-        return false
-    }
-    // 使用Object.prototype.hasOwnProperty确保检查的是对象自身属性，而不是继承来的属性
-    return Object.prototype.hasOwnProperty.call(obj, v)
 }

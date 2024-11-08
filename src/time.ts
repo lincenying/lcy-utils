@@ -1,16 +1,6 @@
 import type { Nullable } from './types'
 
 /**
- * 获取当前时间戳
- * 该函数没有参数。
- * @returns 返回当前的毫秒级时间戳
- */
-export function timestamp() {
-    // 使用Date.now()获取当前时间戳，并通过+运算符将其转换为数字类型
-    return +Date.now()
-}
-
-/**
  * 根据给定的字符串或数值获取一个Date对象。
  * - 如果提供字符串，尝试解析该字符串为日期，支持多种格式，例如'2021-01-01'或'20210101'等。
  * - 如果提供数值，将其视为毫秒数创建Date对象。
@@ -120,6 +110,50 @@ export function getDateDiff(time: string): string {
 }
 
 /**
+ * 函数用于计算两个时间戳之间的差值，并返回以天、小时、分钟、秒的形式表示的时间差。
+ * @param timestamp1 第一个时间戳，格式为字符串。
+ * @param timestamp2 第二个时间戳，格式为字符串。
+ * @returns 返回一个数组，包含天、小时、分钟、秒以及格式化后的小时、分钟和秒字符串。
+ */
+export function subtractTimestamps(timestamp1: string, timestamp2: string): [number, number, number, number, string, string, string] {
+    // 将时间戳字符串转换为Date对象
+    const date1 = getDate(timestamp1)
+    const publishTime1 = date1.getTime()
+
+    const date2 = getDate(timestamp2)
+    const publishTime2 = date2.getTime()
+
+    // 计算两个时间之间的毫秒差
+    const millisecondsDiff = Math.abs(publishTime2 - publishTime1)
+
+    // 毫秒转换为秒、分钟、小时和天
+    const seconds = Math.floor(millisecondsDiff / 1000)
+    const minutes = Math.floor(seconds / 60) % 60
+    const hours = Math.floor(seconds / 3600) % 24
+    const days = Math.floor(seconds / 86400)
+
+    // 秒数取余，用于返回未格式化的秒数
+    const s = seconds % 60
+
+    // 将小时、分钟和秒格式化为两位数字符串
+    const HH = hours < 10 ? `0${hours}` : `${hours}`
+    const MM = minutes < 10 ? `0${minutes}` : `${minutes}`
+    const SS = s < 10 ? `0${s}` : `${s}`
+
+    return [days, hours, minutes, s, HH, MM, SS]
+}
+
+/**
+ * 获取当前时间戳
+ * 该函数没有参数。
+ * @returns 返回当前的毫秒级时间戳
+ */
+export function timestamp() {
+    // 使用Date.now()获取当前时间戳，并通过+运算符将其转换为数字类型
+    return +Date.now()
+}
+
+/**
  * 将UTC时间转换为指定格式的日期字符串。
  * @param utc 可以是UTC时间的字符串或数值。
  * @param format 指定输出的日期格式，默认为'yyyy-mm-dd'， 格式 yyyy-mm-dd hh:ii:ss.SSS | yyyy-m-d h:i:s.S。
@@ -167,38 +201,4 @@ export function UTC2Date(utc?: string | number, format?: string, add?: number): 
         .replace('s', `${second}`)
         .replace('SSS', `${(millisecond < 100 ? '0' : '') + (millisecond < 10 ? '0' : '') + millisecond}`)
         .replace('S', `${millisecond}`)
-}
-
-/**
- * 函数用于计算两个时间戳之间的差值，并返回以天、小时、分钟、秒的形式表示的时间差。
- * @param timestamp1 第一个时间戳，格式为字符串。
- * @param timestamp2 第二个时间戳，格式为字符串。
- * @returns 返回一个数组，包含天、小时、分钟、秒以及格式化后的小时、分钟和秒字符串。
- */
-export function subtractTimestamps(timestamp1: string, timestamp2: string): [number, number, number, number, string, string, string] {
-    // 将时间戳字符串转换为Date对象
-    const date1 = getDate(timestamp1)
-    const publishTime1 = date1.getTime()
-
-    const date2 = getDate(timestamp2)
-    const publishTime2 = date2.getTime()
-
-    // 计算两个时间之间的毫秒差
-    const millisecondsDiff = Math.abs(publishTime2 - publishTime1)
-
-    // 毫秒转换为秒、分钟、小时和天
-    const seconds = Math.floor(millisecondsDiff / 1000)
-    const minutes = Math.floor(seconds / 60) % 60
-    const hours = Math.floor(seconds / 3600) % 24
-    const days = Math.floor(seconds / 86400)
-
-    // 秒数取余，用于返回未格式化的秒数
-    const s = seconds % 60
-
-    // 将小时、分钟和秒格式化为两位数字符串
-    const HH = hours < 10 ? `0${hours}` : `${hours}`
-    const MM = minutes < 10 ? `0${minutes}` : `${minutes}`
-    const SS = s < 10 ? `0${s}` : `${s}`
-
-    return [days, hours, minutes, s, HH, MM, SS]
 }

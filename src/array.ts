@@ -1,6 +1,48 @@
 import type { Arrayable, Nullable, Objable } from './types'
 
 /**
+ * 从数组中获取指定索引的元素。
+ * @param array - 一个只读数组或空数组。
+ * @param index - 要获取元素的索引，可以是正数或负数。负数索引从数组末尾开始计算。
+ * @return 如果指定索引的元素存在，则返回该元素；如果索引超出范围或数组为空，则返回 `undefined`。
+ */
+export function at(array: readonly [], index: number): undefined
+export function at<T>(array: readonly T[], index: number): T
+export function at<T>(array: readonly T[] | [], index: number): T | undefined {
+    const len = array.length // 获取数组长度
+    if (!len) {
+        return undefined // 如果数组为空，直接返回 undefined
+    }
+
+    if (index < 0) {
+        index += len // 如果索引为负数，将其转换为从数组末尾开始的正数索引
+    }
+
+    return array[index] // 返回指定索引的元素
+}
+
+/**
+ * 将数组转换为对象。该函数遍历输入数组中的每个元素，并使用指定的键（key）和值（val）构建一个对象。
+ * @param arr 输入的数组，数组中的每个元素都应包含至少一个与`key`和`val`参数对应的属性。
+ * @param key 用于作为新对象键的数组元素属性。默认值为'value'。
+ * @param val 用于作为新对象值的数组元素属性。默认值为'name'。
+ * @returns 返回一个对象，其中键由数组元素的`key`属性值决定，对应的值由数组元素的`val`属性值决定。
+ * @example
+ * ```
+ * arrayToObject([{name: "AAA", value: 1}, {name: "BBB", value: 2}], 'name', 'value')
+ * // { 1:"AAA", 2:"BBB", 3:"CCC", 4:"DDD" }
+ * ```
+ */
+export function arrayToObject(arr: any[], key = 'value', val = 'name') {
+    const obj: Objable<string | number> = {}
+    // 遍历数组，将每个元素根据key和val构建一个对象
+    arr.forEach((item) => {
+        obj[item[key]] = item[val]
+    })
+    return obj
+}
+
+/**
  * 将给定的数值限制在指定的最小值和最大值之间。
  * @param n 要限制的数值。
  * @param min 允许的最小值。
@@ -11,18 +53,16 @@ export function clamp(n: number, min: number, max: number) {
     // 使用Math.min和Math.max函数确保n的值不会超出指定的范围
     return Math.min(max, Math.max(min, n))
 }
+
 /**
- * 将给定的值转换为数组。
- * 如果输入的是一个数组，则直接返回该数组；
- * 如果输入的是一个非数组，则返回一个包含该输入值的新数组。
- * 如果输入值为 null 或 undefined，则返回一个空数组。
- *
- * @param array 可以是数组或者可被转换为数组的值，也可以是 null 或 undefined。
- * @returns 返回一个由输入值构成的数组。
+ * 将指定的数字限制在数组的范围内。
+ * @param n 要限制的数字。
+ * @param arr 用于限制范围的数组，该数组是只读的。
+ * @returns 返回限制后的数字，该数字将位于数组的起始位置和结束位置之间（包括起始位置，不包括结束位置）。
  */
-export function toArray<T>(array?: Nullable<Arrayable<T>>): Array<T> {
-    array = array ?? []
-    return Array.isArray(array) ? array : [array]
+export function clampArrayRange(n: number, arr: readonly unknown[]) {
+    // 使用 clamp 函数将 n 限制在 0 和 arr.length - 1 之间
+    return clamp(n, 0, arr.length - 1)
 }
 
 /**
@@ -37,6 +77,17 @@ export function flattenArrayable<T>(array?: Nullable<Arrayable<T | Array<T>>>): 
 }
 
 /**
+ * 获取给定数组的最后一个元素。
+ * @param array 一个只读数组，函数将返回该数组的最后一个元素。
+ * @return 返回数组的最后一个元素；如果数组为空，则返回 undefined。
+ */
+export function last(array: readonly []): undefined
+export function last<T>(array: readonly T[]): T
+export function last<T>(array: readonly T[]): T | undefined {
+    return at(array, -1)
+}
+
+/**
  * 将多个可能为数组或可被转换为数组的输入合并为一个数组。
  * @param args - 可以是数组或可被转换为数组的值的参数列表，参数可以为 null 或 undefined。
  * @returns 返回一个合并后的数组，其中包含了所有输入数组中的元素。
@@ -44,6 +95,19 @@ export function flattenArrayable<T>(array?: Nullable<Arrayable<T | Array<T>>>): 
 export function mergeArrayable<T>(...args: Nullable<Arrayable<T>>[]): Array<T> {
     // 使用 flatMap 将所有输入参数转换为数组并合并为一个数组
     return args.flatMap(i => toArray(i))
+}
+
+/**
+ * 将数组中的一个元素从一个位置移动到另一个位置。
+ * @param arr - 要操作的数组。
+ * @param from - 元素当前的索引位置。
+ * @param to - 要将元素移动到的新索引位置。
+ * @returns 返回移动元素后的数组。
+ */
+export function move<T>(arr: T[], from: number, to: number) {
+    // 从原位置移除元素，并将其插入到新位置
+    arr.splice(to, 0, arr.splice(from, 1)[0])
+    return arr
 }
 
 export type PartitionFilter<T> = (i: T, idx: number, arr: readonly T[]) => any
@@ -82,46 +146,6 @@ export function partition<T>(array: readonly T[], ...filters: PartitionFilter<T>
 }
 
 /**
- * 去除数组中的重复元素。
- * @param array - 输入的只读数组。
- * @returns 返回一个新数组，其中只包含一个出现过的元素。
- */
-export function uniq<T>(array: readonly T[]): T[] {
-    // 使用Set数据结构去重，然后转换回数组
-    return Array.from(new Set(array))
-}
-
-/**
- * 根据指定的等值函数，从数组中去除重复元素。
- * @param array - 一个只读数组，是需要去重的源数组。
- * @param equalFn - 一个函数，用于判断两个元素是否相等。如果两个元素相等，该函数应返回true，否则返回false。
- * @returns 返回一个新数组，该数组包含了源数组中不重复的元素。
- */
-export function uniqueBy<T>(array: readonly T[], equalFn: (a: any, b: any) => boolean): T[] {
-    // 使用数组的reduce方法遍历元素，并构建一个新数组，新数组中不会有重复的元素。
-    return array.reduce((acc: T[], cur: any) => {
-        // 查找当前元素在已构建的新数组中的索引，如果不存在，则表示该元素是唯一的。
-        const index = acc.findIndex((item: any) => equalFn(cur, item))
-        if (index === -1) {
-            // 当前元素在新数组中不存在时，将其添加到新数组中。
-            acc.push(cur)
-        }
-        return acc // 返回更新后的新数组。
-    }, [])
-}
-
-/**
- * 获取给定数组的最后一个元素。
- * @param array 一个只读数组，函数将返回该数组的最后一个元素。
- * @return 返回数组的最后一个元素；如果数组为空，则返回 undefined。
- */
-export function last(array: readonly []): undefined
-export function last<T>(array: readonly T[]): T
-export function last<T>(array: readonly T[]): T | undefined {
-    return at(array, -1)
-}
-
-/**
  * 从数组中移除指定的值。
  * @param array 目标数组。
  * @param value 需要移除的值。
@@ -139,27 +163,6 @@ export function remove<T>(array: T[], value: T) {
         return true
     }
     return false
-}
-
-/**
- * 从数组中获取指定索引的元素。
- * @param array - 一个只读数组或空数组。
- * @param index - 要获取元素的索引，可以是正数或负数。负数索引从数组末尾开始计算。
- * @return 如果指定索引的元素存在，则返回该元素；如果索引超出范围或数组为空，则返回 `undefined`。
- */
-export function at(array: readonly [], index: number): undefined
-export function at<T>(array: readonly T[], index: number): T
-export function at<T>(array: readonly T[] | [], index: number): T | undefined {
-    const len = array.length // 获取数组长度
-    if (!len) {
-        return undefined // 如果数组为空，直接返回 undefined
-    }
-
-    if (index < 0) {
-        index += len // 如果索引为负数，将其转换为从数组末尾开始的正数索引
-    }
-
-    return array[index] // 返回指定索引的元素
 }
 
 /**
@@ -196,30 +199,6 @@ export function range(...args: any): number[] {
 }
 
 /**
- * 将数组中的一个元素从一个位置移动到另一个位置。
- * @param arr - 要操作的数组。
- * @param from - 元素当前的索引位置。
- * @param to - 要将元素移动到的新索引位置。
- * @returns 返回移动元素后的数组。
- */
-export function move<T>(arr: T[], from: number, to: number) {
-    // 从原位置移除元素，并将其插入到新位置
-    arr.splice(to, 0, arr.splice(from, 1)[0])
-    return arr
-}
-
-/**
- * 将指定的数字限制在数组的范围内。
- * @param n 要限制的数字。
- * @param arr 用于限制范围的数组，该数组是只读的。
- * @returns 返回限制后的数字，该数字将位于数组的起始位置和结束位置之间（包括起始位置，不包括结束位置）。
- */
-export function clampArrayRange(n: number, arr: readonly unknown[]) {
-    // 使用 clamp 函数将 n 限制在 0 和 arr.length - 1 之间
-    return clamp(n, 0, arr.length - 1)
-}
-
-/**
  * 从数组中随机采样指定数量的元素。
  * @param arr - 待采样的数组。
  * @param quantity - 采样的数量。
@@ -245,22 +224,44 @@ export function shuffle<T>(array: T[]): T[] {
 }
 
 /**
- * 将数组转换为对象。该函数遍历输入数组中的每个元素，并使用指定的键（key）和值（val）构建一个对象。
- * @param arr 输入的数组，数组中的每个元素都应包含至少一个与`key`和`val`参数对应的属性。
- * @param key 用于作为新对象键的数组元素属性。默认值为'value'。
- * @param val 用于作为新对象值的数组元素属性。默认值为'name'。
- * @returns 返回一个对象，其中键由数组元素的`key`属性值决定，对应的值由数组元素的`val`属性值决定。
- * @example
- * ```
- * arrayToObject([{name: "AAA", value: 1}, {name: "BBB", value: 2}], 'name', 'value')
- * // { 1:"AAA", 2:"BBB", 3:"CCC", 4:"DDD" }
- * ```
+ * 将给定的值转换为数组。
+ * 如果输入的是一个数组，则直接返回该数组；
+ * 如果输入的是一个非数组，则返回一个包含该输入值的新数组。
+ * 如果输入值为 null 或 undefined，则返回一个空数组。
+ *
+ * @param array 可以是数组或者可被转换为数组的值，也可以是 null 或 undefined。
+ * @returns 返回一个由输入值构成的数组。
  */
-export function arrayToObject(arr: any[], key = 'value', val = 'name') {
-    const obj: Objable<string | number> = {}
-    // 遍历数组，将每个元素根据key和val构建一个对象
-    arr.forEach((item) => {
-        obj[item[key]] = item[val]
-    })
-    return obj
+export function toArray<T>(array?: Nullable<Arrayable<T>>): Array<T> {
+    array = array ?? []
+    return Array.isArray(array) ? array : [array]
+}
+
+/**
+ * 去除数组中的重复元素。
+ * @param array - 输入的只读数组。
+ * @returns 返回一个新数组，其中只包含一个出现过的元素。
+ */
+export function uniq<T>(array: readonly T[]): T[] {
+    // 使用Set数据结构去重，然后转换回数组
+    return Array.from(new Set(array))
+}
+
+/**
+ * 根据指定的等值函数，从数组中去除重复元素。
+ * @param array - 一个只读数组，是需要去重的源数组。
+ * @param equalFn - 一个函数，用于判断两个元素是否相等。如果两个元素相等，该函数应返回true，否则返回false。
+ * @returns 返回一个新数组，该数组包含了源数组中不重复的元素。
+ */
+export function uniqueBy<T>(array: readonly T[], equalFn: (a: any, b: any) => boolean): T[] {
+    // 使用数组的reduce方法遍历元素，并构建一个新数组，新数组中不会有重复的元素。
+    return array.reduce((acc: T[], cur: any) => {
+        // 查找当前元素在已构建的新数组中的索引，如果不存在，则表示该元素是唯一的。
+        const index = acc.findIndex((item: any) => equalFn(cur, item))
+        if (index === -1) {
+            // 当前元素在新数组中不存在时，将其添加到新数组中。
+            acc.push(cur)
+        }
+        return acc // 返回更新后的新数组。
+    }, [])
 }

@@ -1,4 +1,16 @@
 /**
+ * 检查给定的值是否为真值（truthy）。
+ * - 该函数通过通用类型参数 `T` 接收一个值 `v`。
+ * - 返回一个布尔值，表示该值是否为非空（NonNullable）真值。
+ *
+ * @param v - 任意类型的值，该值将被检查是否为真。
+ * @returns 返回一个布尔值，如果 `v` 是非空的真值，则为 `true`；否则为 `false`。
+ */
+export function isTruthy<T>(v: T): v is NonNullable<T> {
+    return Boolean(v)
+}
+
+/**
  * 检查给定的值是否不为null或undefined。
  * 该函数是一个类型守卫，用于在运行时确定值是否非空，
  * 并在类型系统中将类型缩小到非可空类型。
@@ -28,16 +40,4 @@ export function noNull<T>(v: T | null): v is Exclude<T, null> {
  */
 export function notUndefined<T>(v: T): v is Exclude<T, undefined> {
     return v !== undefined // 判断值是否不等于 undefined，是则类型守卫成功。
-}
-
-/**
- * 检查给定的值是否为真值（truthy）。
- * - 该函数通过通用类型参数 `T` 接收一个值 `v`。
- * - 返回一个布尔值，表示该值是否为非空（NonNullable）真值。
- *
- * @param v - 任意类型的值，该值将被检查是否为真。
- * @returns 返回一个布尔值，如果 `v` 是非空的真值，则为 `true`；否则为 `false`。
- */
-export function isTruthy<T>(v: T): v is NonNullable<T> {
-    return Boolean(v)
 }

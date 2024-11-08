@@ -164,9 +164,9 @@ function _isEmpty(payload: any) {
 }
 
 /**
- * 判断给定的负载是否为空。
- * @param payload 任意类型的负载数据。
- * @returns 返回一个布尔值，如果负载为空则为true，否则为false。
+ * 判断给定的传入值是否为空。
+ * @param payload 任意类型的数据。
+ * @returns 返回一个布尔值，如果传入值为空则为true，否则为false。
  */
 export function isEmpty(payload: any): boolean {
     // 先判断payload是否为数字或布尔值，若不是，则调用_isEmpty函数进一步判断是否为空
@@ -174,9 +174,9 @@ export function isEmpty(payload: any): boolean {
 }
 
 /**
- * 检查给定的负载是否为假值。
+ * 检查给定的传入值是否为假值。
  * @param payload 任意类型的值，作为检查的目标。
- * @returns 返回一个布尔值，如果负载为假值或非布尔、非数字且为空的值，则返回 true；否则返回 false。
+ * @returns 返回一个布尔值，如果传入值为假值或非布尔、非数字且为空的值，则返回 true；否则返回 false。
  */
 export function isFalse(payload: any): boolean {
     // 先通过双否运算符转换payload，再与false比较，等价于检查payload是否为false
