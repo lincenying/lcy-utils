@@ -2,7 +2,7 @@
   "name": "@lincy/utils",
   "type": "module",
   "version": "0.6.1",
-  "packageManager": "pnpm@9.12.3",
+  "packageManager": "pnpm@9.14.4",
   "description": "Opinionated collection of common JavaScript / TypeScript utils by LCY",
   "author": "lincenying <lincenying@gmail.com>",
   "license": "MIT",
@@ -38,25 +38,26 @@
     "prepublishOnly": "npm run build",
     "release": "bumpp --commit --push --tag && npm publish --access public",
     "start": "esno src/index.ts",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint . --flag unstable_ts_config",
+    "lint:fix": "eslint . --flag unstable_ts_config --fix",
     "lint:ts": "tsc --noEmit",
     "test": "vitest"
   },
   "devDependencies": {
-    "@lincy/eslint-config": "^5.2.7",
+    "@lincy/eslint-config": "^5.3.1",
     "@rollup/plugin-alias": "^5.1.1",
     "@rollup/plugin-commonjs": "^28.0.1",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.3.0",
-    "@types/node": "^22.9.0",
+    "@types/node": "^22.10.1",
     "@types/throttle-debounce": "^5.0.2",
     "bumpp": "^9.8.1",
-    "eslint": "^9.14.0",
+    "eslint": "^9.16.0",
     "esno": "^4.8.0",
+    "jiti": "^2.4.1",
     "lint-staged": "^15.2.10",
     "p-limit": "^6.1.0",
-    "rollup": "^4.24.4",
+    "rollup": "^4.28.0",
     "rollup-plugin-delete": "^2.1.0",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-esbuild": "^6.1.1",
@@ -64,9 +65,9 @@
     "simple-open-url": "^3.0.1",
     "throttle-debounce": "5.0.2",
     "tslib": "^2.8.1",
-    "typescript": "^5.6.3",
-    "vite": "^5.4.10",
-    "vitest": "^2.1.4"
+    "typescript": "^5.7.2",
+    "vite": "^6.0.2",
+    "vitest": "^2.1.8"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
@@ -86,6 +87,6 @@
     "pre-commit": "npx lint-staged"
   },
   "lint-staged": {
-    "*.[jt]s?(x)": "eslint --fix"
+    "*.[jt]s?(x)": "eslint --flag unstable_ts_config --fix"
   }
 }
