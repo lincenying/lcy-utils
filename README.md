@@ -716,7 +716,7 @@ capitalize('hello') // 'Hello'
 function ensurePrefix(prefix: string, str: string): string
 ```
 确保字符串的前缀
-@category — String
+- @category — String
 - @example
 ```ts
 ensurePrefix('abc', 'abcdef') // 'abcdef'
@@ -728,7 +728,7 @@ ensurePrefix('hi ', 'jack') // 'hi jack'
 function ensureSuffix(suffix: string, str: string): string
 ```
 确保字符串的后缀
-@category — String
+- @category — String
 - @example
 ```ts
 ensureSuffix('world', 'hello ') // 'hello world'
@@ -773,7 +773,7 @@ function randomStr(size?: number, dict?: string): string
 function slash(str: string): string
 ```
 将反斜杠替换为斜杠
-@category — String
+- @category — String
 - @example
 ```ts
 slash('\\123')// '/123'
