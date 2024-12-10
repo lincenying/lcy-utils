@@ -51,7 +51,7 @@ export function batchHexToRgba(arr: any[]) {
  * hexToRgba('#ffffff', 0.5)
  * ```
  */
-export function hexToRgba(hex: string, opacity = 1): { red: number; green: number; blue: number; rgb: string; rgba: string } {
+export function hexToRgba(hex: string, opacity = 1): { red: number, green: number, blue: number, rgb: string, rgba: string } {
     // 从hex字符串中提取红色、绿色和蓝色分量，并将它们从十六进制转换为十进制
     const red = Number.parseInt(`0x${hex.slice(1, 3)}`, 16)
     const green = Number.parseInt(`0x${hex.slice(3, 5)}`, 16)
