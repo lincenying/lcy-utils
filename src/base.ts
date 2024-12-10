@@ -1,7 +1,6 @@
 /**
  * 向文档中添加新的样式。
  * @param newStyle 要添加的新样式，以字符串形式提供。
- * @returns void
  * @example
  * ```
  * addNewStyle(`html { color: red; }`)
@@ -27,7 +26,6 @@ export function addNewStyle(newStyle: string): void {
  * 断言函数，用于在条件不满足时抛出错误。
  * @param condition 条件，一个布尔值，表示断言是否成功。
  * @param message 错误信息，当条件不满足时抛出的错误包含此信息。
- * @returns 无返回值，但会在条件不满足时抛出错误。
  * @asserts 断言条件为真。
  */
 export function assert(condition: boolean, message: string): asserts condition {
