@@ -4,7 +4,7 @@ import type { Arrayable, Nullable, Objable } from './types'
  * 从数组中获取指定索引的元素。
  * @param array - 一个只读数组或空数组。
  * @param index - 要获取元素的索引，可以是正数或负数。负数索引从数组末尾开始计算。
- * @return 如果指定索引的元素存在，则返回该元素；如果索引超出范围或数组为空，则返回 `undefined`。
+ * @returns 如果指定索引的元素存在，则返回该元素；如果索引超出范围或数组为空，则返回 `undefined`。
  */
 export function at(array: readonly [], index: number): undefined
 export function at<T>(array: readonly T[], index: number): T
@@ -79,7 +79,7 @@ export function flattenArrayable<T>(array?: Nullable<Arrayable<T | Array<T>>>): 
 /**
  * 获取给定数组的最后一个元素。
  * @param array 一个只读数组，函数将返回该数组的最后一个元素。
- * @return 返回数组的最后一个元素；如果数组为空，则返回 undefined。
+ * @returns 返回数组的最后一个元素；如果数组为空，则返回 undefined。
  */
 export function last(array: readonly []): undefined
 export function last<T>(array: readonly T[]): T
