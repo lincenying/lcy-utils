@@ -27,6 +27,7 @@ const plugins = [
     commonjs(),
     esbuild({
         target: 'es2018',
+        charset: 'utf8',
     }),
 ]
 
