@@ -265,3 +265,20 @@ export function uniqueBy<T>(array: readonly T[], equalFn: (a: any, b: any) => bo
         return acc // 返回更新后的新数组。
     }, [])
 }
+
+/**
+ * 移除数组中不符合条件的元素.
+ * 此函数会改变原数组.
+ * `predicate`（判断函数）从数组的末尾到开头遍历以提升性能.
+ *
+ * 此函数在处理大型数组时比使用 Array.prototype.filter 更快.
+ *
+ * @category Array
+ */
+export function filterInPlace<T>(array: T[], predicate: (item: T, index: number, arr: T[]) => unknown) {
+    for (let i = array.length; i--; i >= 0) {
+        if (!predicate(array[i], i, array))
+            array.splice(i, 1)
+    }
+    return array
+}

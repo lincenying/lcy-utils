@@ -268,13 +268,12 @@ export function objectKeys<T extends object>(obj: T) {
  * ```
  * @returns 返回一个新的对象，其键值对是通过处理函数`fn`处理后的结果。
  */
-export function objectMap<K extends string, V, NK = K, NV = V>(obj: Record<K, V>, fn: (key: K, value: V) => [NK, NV] | undefined): Record<K, V> {
-    // 通过Object.entries将对象转换为键值对数组，然后映射每个键值对并通过处理函数fn进行处理
+export function objectMap<K extends string, V, NK extends string | number | symbol = K, NV = V>(obj: Record<K, V>, fn: (key: K, value: V) => [NK, NV] | undefined): Record<NK, NV> {
     return Object.fromEntries(
         Object.entries(obj)
-            .map(([k, v]) => fn(k as K, v as V)) // 应用处理函数
-            .filter(notNullish), // 过滤掉fn返回undefined的键值对
-    )
+            .map(([k, v]) => fn(k as K, v as V))
+            .filter(notNullish),
+    ) as Record<NK, NV>
 }
 
 /**

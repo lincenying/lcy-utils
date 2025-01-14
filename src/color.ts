@@ -79,13 +79,20 @@ export function hexToRgba(hex: string, opacity = 1): { red: number, green: numbe
  * ```
  */
 export function RGB2Hex(color: string): string {
+    const regex = /rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/
+    const match = color.match(regex)
     // 将RGB颜色字符串按逗号分割，提取出r、g、b值
-    const rgb = color.split(',')
-    const r = Number.parseInt(rgb[0].split('(')[1], 10) // 提取并转换红色分量值
-    const g = Number.parseInt(rgb[1], 10) // 提取并转换绿色分量值
-    const b = Number.parseInt(rgb[2].split(')')[0], 10) // 提取并转换蓝色分量值
-
-    // 计算并格式化十六进制颜色值
-    const hex = `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`
-    return hex
+    // const rgb = color.split(',')
+    // const r = Number.parseInt(rgb[0].split('(')[1], 10) // 提取并转换红色分量值
+    // const g = Number.parseInt(rgb[1], 10) // 提取并转换绿色分量值
+    // const b = Number.parseInt(rgb[2].split(')')[0], 10) // 提取并转换蓝色分量值
+    if (match) {
+        const r = Number.parseInt(match[1], 10)
+        const g = Number.parseInt(match[2], 10)
+        const b = Number.parseInt(match[3], 10)
+        // 计算并格式化十六进制颜色值
+        const hex = `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`
+        return hex
+    }
+    return ''
 }
