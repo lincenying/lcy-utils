@@ -156,7 +156,7 @@ export function timestamp() {
 /**
  * 将UTC时间转换为指定格式的日期字符串。
  * @param utc 可以是UTC时间的字符串或数值。
- * @param format 指定输出的日期格式，默认为'yyyy-mm-dd'， 格式 yyyy-mm-dd hh:ii:ss.SSS | yyyy-m-d h:i:s.S。
+ * @param format 指定输出的日期格式，默认为'yyyy-mm-dd'， 格式 yyyy-mm-dd hh:ii:ss.SSS | yyyy-m-d h:i:s.S (y,m,d,h,i不区分大小写,ss为两位数秒, SSS为3位数毫秒, S为毫秒, s为秒)。
  * @param add 可选参数，用于指定要添加到日期上的天数。
  * @returns 返回转换后的日期字符串。
  */
@@ -188,17 +188,17 @@ export function UTC2Date(utc?: string | number, format?: string, add?: number): 
 
     // 根据指定格式返回日期字符串
     return format
-        .replace('yyyy', `${year}`)
-        .replace('mm', monthString)
-        .replace('m', `${month}`)
-        .replace('dd', `${(day < 10 ? '0' : '') + day}`)
-        .replace('d', `${day}`)
-        .replace('hh', `${(hour < 10 ? '0' : '') + hour}`)
-        .replace('h', `${hour}`)
-        .replace('ii', `${(minute < 10 ? '0' : '') + minute}`)
-        .replace('i', `${minute}`)
-        .replace('ss', `${(second < 10 ? '0' : '') + second}`)
-        .replace('s', `${second}`)
+        .replace(/yyyy/gi, `${year}`)
+        .replace(/mm/gi, monthString)
+        .replace(/m/gi, `${month}`)
+        .replace(/dd/gi, `${(day < 10 ? '0' : '') + day}`)
+        .replace(/d/gi, `${day}`)
+        .replace(/hh/gi, `${(hour < 10 ? '0' : '') + hour}`)
+        .replace(/h/gi, `${hour}`)
+        .replace(/ii/gi, `${(minute < 10 ? '0' : '') + minute}`)
+        .replace(/i/gi, `${minute}`)
         .replace('SSS', `${(millisecond < 100 ? '0' : '') + (millisecond < 10 ? '0' : '') + millisecond}`)
+        .replace(/ss/gi, `${(second < 10 ? '0' : '') + second}`)
+        .replace('s', `${second}`)
         .replace('S', `${millisecond}`)
 }
