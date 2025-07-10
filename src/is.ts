@@ -168,7 +168,7 @@ function _isEmpty(payload: any) {
  * @param payload 任意类型的数据。
  * @returns 返回一个布尔值，如果传入值为空则为true，否则为false。
  */
-export function isEmpty(payload: any): boolean {
+export function isEmpty(payload: any): payload is null | undefined {
     // 先判断payload是否为数字或布尔值，若不是，则调用_isEmpty函数进一步判断是否为空
     return !isNumber(payload) && !isBoolean(payload) && _isEmpty(payload)
 }
@@ -178,7 +178,7 @@ export function isEmpty(payload: any): boolean {
  * @param payload 任意类型的值，作为检查的目标。
  * @returns 返回一个布尔值，如果传入值为假值或非布尔、非数字且为空的值，则返回 true；否则返回 false。
  */
-export function isFalse(payload: any): boolean {
+export function isFalse(payload: any): payload is null | undefined {
     // 先通过双否运算符转换payload，再与false比较，等价于检查payload是否为false
     // 同时判断payload是否既不是布尔值也不是数字，并且为空
     return !!payload === false || (!isBoolean(payload) && !isNumber(payload) && _isEmpty(payload))
