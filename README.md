@@ -750,6 +750,22 @@ parseCookies('key1=all; key2=false; key3=true;')
 // { key3: 'true', key1: 'all', key2: 'false' }
 ```
 
+### objToCookies
+```ts
+function objToCookies(data: Record<string, string | number | boolean>): string
+```
+将对象转换为 Cookie 字符串
+@param data 要转换的键值对对象
+@returns 格式化后的 Cookie 字符串
+```ts
+objToCookies({
+    auto_devops_settings_dismissed: 'true',
+    event_filter: 'all',
+    sidebar_collapsed: 'false',
+})
+// auto_devops_settings_dismissed=true; event_filter=all; sidebar_collapsed=false
+```
+
 ### Random
 ```ts
 function Random(lower: number, upper: number): number

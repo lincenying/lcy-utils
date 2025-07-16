@@ -109,9 +109,7 @@ export function parseCookies(cookies: string): { [key: string]: string } {
  * @param data 要转换的键值对对象
  * @returns 格式化后的 Cookie 字符串
  */
-export function objToCookies(
-    data: Record<string, string | number | boolean>,
-): string {
+export function objToCookies(data: Record<string, string | number | boolean>): string {
     // 处理键值对
     const entries = Object.entries(data)
         .map(([key, value]) => {
