@@ -34,10 +34,7 @@ export function getDate(str?: string | number): Date {
                 newDate = new Date(str)
             }
         }
-        catch (_error) {
-            // 解析失败时，默认创建当前日期的Date对象
-            newDate = new Date()
-        }
+        catch (_error) {}
     }
     // 如果解析结果为null，则默认返回当前日期的Date对象
     if (!newDate) {
