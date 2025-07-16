@@ -105,6 +105,27 @@ export function parseCookies(cookies: string): { [key: string]: string } {
 }
 
 /**
+ * 将对象转换为 Cookie 字符串
+ * @param data 要转换的键值对对象
+ * @returns 格式化后的 Cookie 字符串
+ */
+export function objToCookies(
+    data: Record<string, string | number | boolean>,
+): string {
+    // 处理键值对
+    const entries = Object.entries(data)
+        .map(([key, value]) => {
+            const encodedKey = encodeURIComponent(key)
+            const encodedValue = encodeURIComponent(value.toString())
+            return `${encodedKey}=${encodedValue}`
+        })
+        .join('; ')
+
+    // 组合结果
+    return entries
+}
+
+/**
  * 生成一个在指定范围内的随机数。
  * @param lower 下限，如果未指定，则默认为0。
  * @param upper 上限，如果未指定，则默认为0。
@@ -127,7 +148,7 @@ const urlAlphabet = 'useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwy
  * @param {string} dict 用于生成随机字符串的字符集，默认为urlAlphabet。
  * @returns {string} 生成的随机字符串。
  */
-export function randomStr(size = 16, dict = urlAlphabet) {
+export function randomStr(size: number = 16, dict: string = urlAlphabet): string {
     let id = '' // 初始化生成的字符串
     let i = size // 初始化剩余字符数量
     const len = dict.length // 字符集的长度

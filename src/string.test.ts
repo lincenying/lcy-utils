@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest'
-import { addStr, capitalize, ensurePrefix, ensureSuffix, parseCookies, slash, strLen, template, transformStr } from './string'
+import { addStr, capitalize, ensurePrefix, ensureSuffix, objToCookies, parseCookies, slash, strLen, template, transformStr } from './string'
 
 it('template', () => {
     expect(
@@ -78,4 +78,12 @@ it('parseCookies', () => {
         event_filter: 'all',
         sidebar_collapsed: 'false',
     })
+})
+
+it('objToCookies', () => {
+    expect(objToCookies({
+        auto_devops_settings_dismissed: 'true',
+        event_filter: 'all',
+        sidebar_collapsed: 'false',
+    })).toEqual(`auto_devops_settings_dismissed=true; event_filter=all; sidebar_collapsed=false`)
 })
