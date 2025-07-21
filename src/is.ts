@@ -108,6 +108,15 @@ export function isPromise<T = any>(obj: any): obj is Promise<T> {
 }
 
 /**
+ * 检查值是否为FormData对象
+ * @param val - 要检查的值
+ * @returns 如果值为FormData对象则返回true，否则返回false
+ */
+export function isFormData(val: any): val is FormData {
+    return Object.prototype.toString.call(val) === '[object FormData]'
+}
+
+/**
  * 检查给定的字符串是否为有效的电子邮件地址
  * @param email 待检查的电子邮件地址
  * @returns 如果邮箱地址有效，返回true，否则返回false
