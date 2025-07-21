@@ -475,6 +475,14 @@ function isPromise<T = any>(obj: any): obj is Promise<T>
 - @param obj 要检查的对象。
 - @returns 返回一个布尔值，表示该对象是否为Promise。
 
+### isFormData
+```ts
+export function isFormData(val: any): val is FormData
+```
+检查值是否为FormData对象
+- @param val - 要检查的值
+- @returns 如果值为FormData对象则返回true，否则返回false
+
 ### isEmail
 ```ts
 function isEmail(email: string): boolean
