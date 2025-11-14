@@ -41,6 +41,44 @@ export function capitalize(str: string): string {
 }
 
 /**
+ * 复制指定字符串到粘贴板
+ * @param text 需要复制的字符串
+ * @returns 返回一个Promise，成功时为true，失败时为false
+ */
+export async function copyToClipboard(text: string): Promise<boolean> {
+    try {
+        // 方法1: 使用现代 Clipboard API
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text)
+            return true
+        }
+
+        // 方法2: 降级方案 - 使用 textarea 和 execCommand
+        const textArea = document.createElement('textarea')
+        textArea.value = text
+
+        // 隐藏 textarea，不在可视区域显示
+        textArea.style.position = 'fixed'
+        textArea.style.top = '0'
+        textArea.style.left = '0'
+        textArea.style.opacity = '0'
+
+        document.body.appendChild(textArea)
+        textArea.focus()
+        textArea.select()
+
+        const successful = document.execCommand('copy')
+        document.body.removeChild(textArea)
+
+        return successful
+    }
+    catch (err) {
+        console.error('复制到粘贴板失败:', err)
+        return false
+    }
+}
+
+/**
  * 确保字符串的前缀
  *
  * @category String
@@ -72,6 +110,41 @@ export function ensureSuffix(suffix: string, str: string) {
         return str + suffix
     }
     return str
+}
+
+/**
+ * 将字节数格式化为易于读取的文件大小字符串
+ * @param bytes 文件大小的字节数
+ * @returns 格式化后的文件大小字符串，包含适当的单位(GB/MB/KB/B)
+ * @example
+ * ```
+ * formatFileSize(1023)
+ * // '1023B'
+ * formatFileSize(1024)
+ * // '1.00KB'
+ * formatFileSize(1048576)
+ * // '1.00MB'
+ * formatFileSize(1073741824)
+ * // '1.00GB'
+ * ```
+ */
+export function formatFileSize(bytes: number): string {
+    const KB = 1024
+    const MB = KB * 1024
+    const GB = MB * 1024
+
+    if (bytes >= GB) {
+        return `${(bytes / GB).toFixed(2)}GB`
+    }
+    else if (bytes >= MB) {
+        return `${(bytes / MB).toFixed(2)}MB`
+    }
+    else if (bytes >= KB) {
+        return `${(bytes / KB).toFixed(2)}KB`
+    }
+    else {
+        return `${bytes}B`
+    }
 }
 
 /**
@@ -269,42 +342,4 @@ export function transformStr(str: string): string {
 
     // 将处理后的数组重新连接为一个字符串并返回
     return strArr.join('')
-}
-
-/**
- * 复制指定字符串到粘贴板
- * @param text 需要复制的字符串
- * @returns 返回一个Promise，成功时为true，失败时为false
- */
-export async function copyToClipboard(text: string): Promise<boolean> {
-    try {
-        // 方法1: 使用现代 Clipboard API
-        if (navigator.clipboard && window.isSecureContext) {
-            await navigator.clipboard.writeText(text)
-            return true
-        }
-
-        // 方法2: 降级方案 - 使用 textarea 和 execCommand
-        const textArea = document.createElement('textarea')
-        textArea.value = text
-
-        // 隐藏 textarea，不在可视区域显示
-        textArea.style.position = 'fixed'
-        textArea.style.top = '0'
-        textArea.style.left = '0'
-        textArea.style.opacity = '0'
-
-        document.body.appendChild(textArea)
-        textArea.focus()
-        textArea.select()
-
-        const successful = document.execCommand('copy')
-        document.body.removeChild(textArea)
-
-        return successful
-    }
-    catch (err) {
-        console.error('复制到粘贴板失败:', err)
-        return false
-    }
 }

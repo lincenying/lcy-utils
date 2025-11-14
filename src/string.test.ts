@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest'
-import { addStr, capitalize, ensurePrefix, ensureSuffix, objToCookies, parseCookies, slash, strLen, template, transformStr } from './string'
+import { addStr, capitalize, ensurePrefix, ensureSuffix, formatFileSize, objToCookies, parseCookies, slash, strLen, template, transformStr } from './string'
 
 it('template', () => {
     expect(
@@ -70,6 +70,13 @@ it('strLen', () => {
 
 it('addStr', () => {
     expect(addStr('121432432432432', 3, '|')).toEqual('121|432|432|432|432')
+})
+
+it('formatFileSize', () => {
+    expect(formatFileSize(1023)).toEqual('1023B')
+    expect(formatFileSize(1024)).toEqual('1.00KB')
+    expect(formatFileSize(1048576)).toEqual('1.00MB')
+    expect(formatFileSize(1073741824)).toEqual('1.00GB')
 })
 
 it('parseCookies', () => {
