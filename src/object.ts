@@ -300,3 +300,60 @@ export function objectPick<O extends object, T extends keyof O>(obj: O, keys: T[
         return n
     }, {} as Pick<O, T>) // 初始化为空对象，并通过类型断言指定其类型
 }
+
+interface CookieOptions {
+    path?: string
+    domain?: string
+    expires?: Date | number
+    maxAge?: number
+    secure?: boolean
+    httpOnly?: boolean
+    sameSite?: 'Strict' | 'Lax' | 'None'
+}
+
+/**
+ * 将对象转换为 Cookie 字符串
+ * @param data 要转换的键值对对象
+ * @param options Cookie 配置选项
+ * @returns 格式化后的 Cookie 字符串
+ */
+export function objectToCookies(
+    data: Record<string, string | number | boolean>,
+    options: CookieOptions = {},
+): string[] {
+    const getOpts = () => {
+        // 处理配置选项
+        const optionParts: string[] = []
+
+        if (options.path)
+            optionParts.push(`path=${options.path}`)
+        if (options.domain)
+            optionParts.push(`domain=${options.domain}`)
+
+        // 处理过期时间
+        if (options.expires) {
+            const expiresDate = options.expires instanceof Date ? options.expires : new Date(Date.now() + options.expires * 1000)
+            optionParts.push(`expires=${expiresDate.toUTCString()}`)
+        }
+
+        if (options.maxAge)
+            optionParts.push(`max-age=${options.maxAge}`)
+        if (options.secure)
+            optionParts.push('secure')
+        if (options.httpOnly)
+            optionParts.push('HttpOnly')
+        if (options.sameSite)
+            optionParts.push(`SameSite=${options.sameSite}`)
+
+        return optionParts.join('; ')
+    }
+    // 处理键值对
+    const entries = Object.entries(data)
+        .map(([key, value]) => {
+            const encodedKey = encodeURIComponent(key)
+            const encodedValue = encodeURIComponent(value.toString())
+            const opts = getOpts()
+            return `${encodedKey}=${encodedValue}${opts ? `; ${opts}` : ''}`
+        })
+    return entries
+}

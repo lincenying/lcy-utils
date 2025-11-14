@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { deepClone, deepMerge, objectMap } from './object'
+import { deepClone, deepMerge, objectMap, objectToCookies } from './object'
 
 it('objectMap', () => {
     expect(objectMap({}, (...args) => args)).toEqual({})
@@ -65,5 +65,39 @@ describe('deepClone', () => {
         obj1.c = 'CC'
         const isEqual = obj1 === obj2
         expect(isEqual).toEqual(false)
+    })
+})
+
+interface CookieOptions {
+    path?: string
+    domain?: string
+    expires?: Date | number
+    maxAge?: number
+    secure?: boolean
+    httpOnly?: boolean
+    sameSite?: 'Strict' | 'Lax' | 'None'
+}
+
+describe('objectToCookies', () => {
+    it('objectToCookies', () => {
+        const cookiesData = {
+            userId: '12345',
+            sessionToken: 'abcde-12345',
+            theme: 'dark',
+        }
+
+        const cookieOptions: CookieOptions = {
+            path: '/',
+            maxAge: 3600, // 1小时有效期
+            secure: true,
+            sameSite: 'Lax',
+        }
+        expect(objectToCookies(cookiesData, cookieOptions)).toEqual(
+            [
+                'userId=12345; path=/; max-age=3600; secure; SameSite=Lax',
+                'sessionToken=abcde-12345; path=/; max-age=3600; secure; SameSite=Lax',
+                'theme=dark; path=/; max-age=3600; secure; SameSite=Lax',
+            ],
+        )
     })
 })
