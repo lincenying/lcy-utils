@@ -194,8 +194,8 @@ export function UTC2Date(utc?: string | number, format?: string, add?: number): 
         .replace(/h/gi, `${hour}`)
         .replace(/ii/gi, `${(minute < 10 ? '0' : '') + minute}`)
         .replace(/i/gi, `${minute}`)
-        .replace('SSS', `${(millisecond < 100 ? '0' : '') + (millisecond < 10 ? '0' : '') + millisecond}`)
+        .replace('/SSS/g', `${(millisecond < 100 ? '0' : '') + (millisecond < 10 ? '0' : '') + millisecond}`)
         .replace(/ss/gi, `${(second < 10 ? '0' : '') + second}`)
-        .replace('s', `${second}`)
-        .replace('S', `${millisecond}`)
+        .replace('/s/g', `${second}`)
+        .replace('/S/g', `${millisecond}`)
 }

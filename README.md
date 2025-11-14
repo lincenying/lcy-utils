@@ -169,6 +169,15 @@ function uniqueBy<T>(array: readonly T[], equalFn: (a: any, b: any) => boolean):
 - @param equalFn — 一个函数，用于判断两个元素是否相等。如果两个元素相等，该函数应返回true，否则返回false。
 - @returns — 返回一个新数组，该数组包含了源数组中不重复的元素。
 
+### filterInPlace
+```ts
+function filterInPlace<T>(array: T[], predicate: (item: T, index: number, arr: T[]) => unknown)
+```
+移除数组中不符合条件的元素.
+- 此函数会改变原数组.
+- `predicate`（判断函数）从数组的末尾到开头遍历以提升性能.
+- 此函数在处理大型数组时比使用 Array.prototype.filter 更快.
+
 ## base
 
 ### addNewStyle
@@ -642,7 +651,7 @@ function objectKeys<T extends object>(obj: T): Array<`${keyof T & (string | numb
 
 ### objectMap
 ```ts
-function objectMap<K extends string, V, NK = K, NV = V>(obj: Record<K, V>, fn: (key: K, value: V) => [NK, NV] | undefined): Record<K, V>
+function objectMap<K extends string, V, NK extends string | number | symbol = K, NV = V>(obj: Record<K, V>, fn: (key: K, value: V) => [NK, NV] | undefined): Record<NK, NV>
 ```
 对象映射函数，将给定对象的键值对通过提供的函数处理后，生成新的对象。
 - @param obj — 输入的对象，其键值对将被遍历。
@@ -690,6 +699,19 @@ function sleep(ms: number, callback?: Fn<any>): Promise<void>
 - @param ms - 指定的延迟时间，以毫秒为单位
 - @param callback - 可选的回调函数，延迟结束后执行
 - @returns Promise - 一个Promise对象，表示延迟操作完成
+
+### p
+```ts
+function p<T = any>(items?: Iterable<T>, options?: POptions): PInstance<T>
+```
+用于管理多个Promise的工具
+```ts
+const items = [1, 2, 3, 4, 5]
+await p(items)
+    .map(async i => await multiply(i, 3))
+    .filter(async i => await isEven(i))
+// [6, 12]
+```
 
 ## string
 
@@ -834,10 +856,12 @@ const result = template(
     'Inès',
     'Anthony'
 ) // Hello Inès! My name is Anthony.
+
 const result = namedTemplate(
     '{greet}! My name is {name}.',
     { greet: 'Hello', name: 'Anthony' }
 ) // Hello! My name is Anthony.
+
 const result = namedTemplate(
     '{greet}! My name is {name}.',
     { greet: 'Hello' }, // name isn't passed hence fallback will be used for name
@@ -855,6 +879,24 @@ function transformStr(str: string): string
 - @example
 ```ts
 transformStr('a-bc-df') // aBcDf
+```
+
+### copyToClipboard
+```ts
+function copyToClipboard(text: string): Promise<boolean>
+```
+复制指定字符串到粘贴板
+- @param text 需要复制的字符串
+- @returns 返回一个Promise，成功时为true，失败时为false
+```ts
+copyToClipboard('text').then((success) => {
+    if (success) {
+        alert('复制成功!')
+    }
+    else {
+        alert('复制失败!')
+    }
+})
 ```
 
 ## time
@@ -900,10 +942,10 @@ function timestamp(): number
 function UTC2Date(utc?: string | number, format?: string, add?: number): string
 ```
 将UTC时间转换为指定格式的日期字符串。
-- @param utc — 可以是UTC时间的字符串或数值。
-- @param format — 指定输出的日期格式，默认为'yyyy-mm-dd'， 格式 yyyy-mm-dd hh:ii:ss.SSS | yyyy-m-d h:i:s.S。
-- @param add — 可选参数，用于指定要添加到日期上的天数。
-- @returns — 返回转换后的日期字符串。
+- @param utc 可以是UTC时间的字符串或数值。
+- @param format 指定输出的日期格式，默认为'yyyy-mm-dd'， 格式 yyyy-mm-dd hh:ii:ss.SSS | yyyy-m-d h:i:s.S (y,m,d,h,i不区分大小写,ss为两位数秒, SSS为3位数毫秒, S为毫秒, s为秒)。
+- @param add 可选参数，用于指定要添加到日期上的天数。
+- @returns 返回转换后的日期字符串。
 
 ## url
 
