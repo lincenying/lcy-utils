@@ -1,7 +1,7 @@
 {
   "name": "@lincy/utils",
   "type": "module",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "packageManager": "pnpm@10.22.0",
   "description": "Opinionated collection of common JavaScript / TypeScript utils by LCY",
   "author": "lincenying <lincenying@gmail.com>",
