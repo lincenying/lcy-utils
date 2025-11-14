@@ -689,6 +689,38 @@ function objectPick<O extends object, T extends keyof O>(obj: O, keys: T[], omit
 objectPick({ a: 1, b: 2, c: 3, d: 4 }, ['a', 'b']) // {a: 1, b: 2}
 ```
 
+### objectToCookies
+```ts
+function objectToCookies(
+    data: Record<string, string | number | boolean>,
+    options: CookieOptions = {},
+): string[]
+```
+将对象转换为 Cookie 字符串
+- @param data 要转换的键值对对象
+- @param options Cookie 配置选项
+- @returns 格式化后的 Cookie 字符串
+```ts
+const cookiesData = {
+    userId: '12345',
+    sessionToken: 'abcde-12345',
+    theme: 'dark',
+}
+
+const cookieOptions: CookieOptions = {
+    path: '/',
+    maxAge: 3600, // 1小时有效期
+    secure: true,
+    sameSite: 'Lax',
+}
+objectToCookies(cookiesData, cookieOptions)
+// [
+//     'userId=12345; path=/; max-age=3600; secure; SameSite=Lax',
+//     'sessionToken=abcde-12345; path=/; max-age=3600; secure; SameSite=Lax',
+//     'theme=dark; path=/; max-age=3600; secure; SameSite=Lax',
+// ]
+```
+
 ## promise
 
 ### sleep
@@ -741,6 +773,24 @@ function capitalize(str: string): string
 capitalize('hello') // 'Hello'
 ```
 
+### copyToClipboard
+```ts
+function copyToClipboard(text: string): Promise<boolean>
+```
+复制指定字符串到粘贴板
+- @param text 需要复制的字符串
+- @returns 返回一个Promise，成功时为true，失败时为false
+```ts
+copyToClipboard('text').then((success) => {
+    if (success) {
+        alert('复制成功!')
+    }
+    else {
+        alert('复制失败!')
+    }
+})
+```
+
 ### ensurePrefix
 ```ts
 function ensurePrefix(prefix: string, str: string): string
@@ -763,6 +813,24 @@ function ensureSuffix(suffix: string, str: string): string
 ```ts
 ensureSuffix('world', 'hello ') // 'hello world'
 ensureSuffix('123', 'abc123') // 'abc123'
+```
+
+### formatFileSize
+```ts
+function formatFileSize(bytes: number): string
+```
+将字节数格式化为易于读取的文件大小字符串
+- @param bytes 文件大小的字节数
+- @returns 格式化后的文件大小字符串，包含适当的单位(GB/MB/KB/B)
+```ts
+formatFileSize(1023)
+// '1023B'
+formatFileSize(1024)
+// '1.00KB'
+formatFileSize(1048576)
+// '1.00MB'
+formatFileSize(1073741824)
+// '1.00GB'
 ```
 
 ### parseCookies
@@ -879,24 +947,6 @@ function transformStr(str: string): string
 - @example
 ```ts
 transformStr('a-bc-df') // aBcDf
-```
-
-### copyToClipboard
-```ts
-function copyToClipboard(text: string): Promise<boolean>
-```
-复制指定字符串到粘贴板
-- @param text 需要复制的字符串
-- @returns 返回一个Promise，成功时为true，失败时为false
-```ts
-copyToClipboard('text').then((success) => {
-    if (success) {
-        alert('复制成功!')
-    }
-    else {
-        alert('复制失败!')
-    }
-})
 ```
 
 ## time
